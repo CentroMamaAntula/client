@@ -1,0 +1,63 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "eslint:recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "src"
+        ],
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "no-underscore-dangle": "off",
+    "arrow-parens": "off",
+    "arrow-body-style": "off",
+    "comma-dangle": "off",
+    "camelcase": "off",
+    "indent": "off",
+    "spaced-comment": "off",
+    "react/jsx-fragments": "off",
+    "operator-linebreak": "off",
+    "object-curly-newline": "off",
+    "react/jsx-curly-brace-presence": "off",
+    "react/destructuring-assignment": "off",
+    "no-confusing-arrow": "warn",
+    "react/jsx-wrap-multilines": "off",
+    "no-nested-ternary": "off",
+    "import/no-unresolved": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/prop-types": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "no-console": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/forbid-prop-types": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "react/jsx-boolean-value": "warn",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-restricted-globals": "off",
+    "no-unused-vars": "warn",
+    "no-unneeded-ternary": "warn",
+    "react/jsx-indent": "warn",
+    "no-shadow": "warn"
+  }
+}
