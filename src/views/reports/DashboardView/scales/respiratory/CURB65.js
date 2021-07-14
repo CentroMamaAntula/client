@@ -6,7 +6,7 @@ import moment from 'moment';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import calculateAge from 'src/utils/calculateAge';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { green, yellow, red } from '@material-ui/core/colors';
 import {
   Box,
@@ -44,19 +44,19 @@ const useStyles = makeStyles({
   }
 });
 
-const themeGreen = createMuiTheme({
+const themeGreen = createTheme({
   palette: {
     primary: green
   }
 });
 
-const themeRed = createMuiTheme({
+const themeRed = createTheme({
   palette: {
     primary: red
   }
 });
 
-const themeYellow = createMuiTheme({
+const themeYellow = createTheme({
   palette: {
     primary: yellow
   }

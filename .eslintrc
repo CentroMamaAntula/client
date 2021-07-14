@@ -30,6 +30,7 @@
     "camelcase": "off",
     "indent": "off",
     "spaced-comment": "off",
+    "linebreak-style": ["error", "windows"],
     "react/jsx-fragments": "off",
     "operator-linebreak": "off",
     "object-curly-newline": "off",

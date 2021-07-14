@@ -27,7 +27,7 @@ import {
   TableRow,
   MenuItem
 } from '@material-ui/core';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { green, yellow, red } from '@material-ui/core/colors';
 import TableCellCustom from 'src/components/TableCellCustom';
 import TableRowCustom from 'src/components/TableRowlCustom';
@@ -40,19 +40,19 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const themeGreen = createMuiTheme({
+const themeGreen = createTheme({
   palette: {
     primary: green
   }
 });
 
-const themeRed = createMuiTheme({
+const themeRed = createTheme({
   palette: {
     primary: red
   }
 });
 
-const themeYellow = createMuiTheme({
+const themeYellow = createTheme({
   palette: {
     primary: yellow
   }

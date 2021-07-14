@@ -14,8 +14,8 @@ import {
 import {
   BarChart as BarChartIcon,
   Users as UsersIcon,
-  /*   User as UserIcon,
-   */ Settings as SettingsIcon
+  User as UserIcon,
+  Settings as SettingsIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -41,13 +41,12 @@ const items = [
     icon: SettingsIcon,
     title: 'Kinesiologia'
   },
-  /*
     {
       href: '/app/nursing',
       icon: UserIcon,
       title: 'Enfermeria'
     },
-
+/*
   {
     href: '/app/epicrisis',
     icon: SettingsIcon,

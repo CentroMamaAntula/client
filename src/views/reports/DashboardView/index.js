@@ -111,7 +111,7 @@ const Dashboard = () => {
             {message ? message : messageCH}
           </Alert>
         </Snackbar>
-        <Grid container justify="center" spacing={1}>
+        <Grid container justifyContent="center" spacing={1}>
           <SearchPaciente user={user} />
           {user && (user.role === ENFERMERO || user.role === KINESILOGIA) ? (
             paciente ? (

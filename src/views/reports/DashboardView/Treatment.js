@@ -13,6 +13,7 @@ import {
   Container,
   Dialog,
   DialogTitle,
+  IconButton,
   Grid,
   Table,
   TableHead,
@@ -32,6 +33,7 @@ import TableCellCustom from 'src/components/TableCellCustom';
 import TableRowCustom from 'src/components/TableRowlCustom';
 import TablePaginationActions from 'src/components/TablePaginationActions';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import PostAddRoundedIcon from '@material-ui/icons/PostAddRounded';
 
 const Treatment = ({
   className,
@@ -58,13 +60,13 @@ const Treatment = ({
     setOpen(false);
   };
 
-  /*   const handleClick = id => {
+  const handleClick = id => {
     if (id) {
       setIdTreatment(id);
       getApplication(id);
     }
     setOpenTwo(!openTwo);
-  }; */
+  };
 
   const handleClickClose = () => {
     setIdTreatment(null);
@@ -97,7 +99,6 @@ const Treatment = ({
             </Button>
           }
         />
-
         <CardContent>
           <PerfectScrollbar>
             <Box height="auto" position="relative">
@@ -107,8 +108,7 @@ const Treatment = ({
                     <TableCellCustom>Tratamiento</TableCellCustom>
                     <TableCellCustom>Observaciones</TableCellCustom>
                     <TableCellCustom>Fecha/Hora</TableCellCustom>
-                    {/*                     <TableCellCustom>Aplicaciones</TableCellCustom>
-                     */}
+                    <TableCellCustom>Aplicaciones/Enfermeria</TableCellCustom>
                     <TableCellCustom>Nombre del Profesional</TableCellCustom>
                   </TableRowCustom>
                 </TableHead>
@@ -117,14 +117,14 @@ const Treatment = ({
                     data.treatments.map(treatment => (
                       <TableRowCustom hover key={treatment._id}>
                         <TableCellCustom>{treatment.name}</TableCellCustom>
-                        <TableCellCustom>
+                        <TableCellCustom style={{ whiteSpace: 'pre' }}>
                           {treatment.observations}
                         </TableCellCustom>
                         <TableCellCustom>
                           {`${new Date(treatment.date).toLocaleDateString()} 
                           ${new Date(treatment.date).toLocaleTimeString()}`}
                         </TableCellCustom>
-                        {/* <TableCellCustom>
+                        <TableCellCustom>
                           <IconButton
                             edge="end"
                             size="small"
@@ -132,7 +132,7 @@ const Treatment = ({
                           >
                             <PostAddRoundedIcon />
                           </IconButton>
-                        </TableCellCustom> */}
+                        </TableCellCustom>
                         <TableCellCustom>
                           {'Dr/a '}
                           {treatment.professional_name.name}
