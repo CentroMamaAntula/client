@@ -148,7 +148,7 @@ const Treatment = ({
                       rowsPerPage={5}
                       page={data !== null ? data.currentPage - 1 : 1}
                       onChangePage={handleChangePage}
-                      ActionsComponent={TablePaginationActions}
+                      /*ActionsComponent={TablePaginationActions}*/
                       labelDisplayedRows={handleLabelDisplay}
                     />
                   </TableRow>

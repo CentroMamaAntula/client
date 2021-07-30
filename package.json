@@ -64,6 +64,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "nodemon": "^2.0.12",
     "prettier": "^1.19.1"
   }
 }

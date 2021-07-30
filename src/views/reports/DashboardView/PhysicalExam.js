@@ -134,7 +134,7 @@ const PhysicalExam = ({
               rowsPerPage={4}
               page={data !== null ? data.currentPage - 1 : 1}
               onChangePage={handleChangePage}
-              ActionsComponent={TablePaginationActions}
+              /*ActionsComponent={TablePaginationActions}*/
               labelDisplayedRows={handleLabelDisplay}
             />
           </TableRow>
