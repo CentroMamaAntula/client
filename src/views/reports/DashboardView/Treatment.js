@@ -371,23 +371,23 @@ const Treatment = ({
               <List>
                 {application
                   ? application.map(app => (
-                      <ListItem key={app._id}>
-                        <ListItemText
-                          primary={
-                            <Box mb={1}>
-                              <Typography variant="h5">
-                                {moment(app.date).format('DD/MM/YYYY HH:mm')}
-                              </Typography>
-                              <Typography variant="h4">
-                                {app.observations}
-                              </Typography>
-                              <Typography variant="h5">
-                                {app.id_nurse.name}
-                              </Typography>
-                            </Box>
-                          }
-                        />
-                      </ListItem>
+                    <ListItem key={app._id}>
+                      <ListItemText
+                        primary={
+                          <Box mb={1}>
+                            <Typography variant="h5">
+                              {moment(app.date).format('DD/MM/YYYY HH:mm')}
+                            </Typography>
+                            <Typography variant="h4">
+                              {app.observations}
+                            </Typography>
+                            <Typography variant="h5">
+                              {app.id_nurse.name}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </ListItem>
                     ))
                   : null}
               </List>

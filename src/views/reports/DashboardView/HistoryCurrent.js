@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -83,8 +84,7 @@ const HistoryCurrent = ({
             initialValues={{
               date: new Date()
                 .toJSON()
-                .slice(0, 10)
-                .replace('/', '-'),
+                .slice(0, 16),
               disease: '',
               observations: ''
             }}
@@ -132,7 +132,7 @@ const HistoryCurrent = ({
                       name="date"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      type="date"
+                      type="datetime-local"
                       value={values.date}
                       variant="outlined"
                     />
@@ -204,12 +204,7 @@ const HistoryCurrent = ({
                   data.historyCurrents.map(historyCurrent => (
                     <TableRowCustom hover key={historyCurrent._id}>
                       <TableCellCustom>
-                        {new Date(historyCurrent.date)
-                          .toJSON()
-                          .slice(0, 10)
-                          .split('-')
-                          .reverse()
-                          .join('/')}
+                        {moment(historyCurrent.date).format('DD/MM/YYYY HH:mm')}
                       </TableCellCustom>
                       <TableCellCustom>
                         {historyCurrent.disease}
