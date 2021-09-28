@@ -71,6 +71,11 @@ const BloodTest = ({
     setOpenViewProgress(true);
   };
 
+  /* const progress = () => {
+    const { reports } = data;
+    const rows = 
+  }; */
+
   const handleCloseViewProgress = () => {
     setOpenViewProgress(false);
   };
@@ -91,13 +96,13 @@ const BloodTest = ({
         titleTypographyProps={{ variant: 'h3' }}
         action={
           <Fragment>
-            <Button
+            {/* <Button
               color="secondary"
               variant="outlined"
               onClick={handleClickViewProgress}
             >
               Historico
-            </Button>
+            </Button> */}
             <Button
               color="secondary"
               variant="outlined"
@@ -225,7 +230,7 @@ const BloodTest = ({
       </Dialog>
 
       {/* view progresion */}
-      <Dialog
+      {/* <Dialog
         fullWidth
         maxWidth={'xl'}
         open={openViewProgress}
@@ -262,7 +267,8 @@ const BloodTest = ({
                               <TableRowCustom>
                                 <TableCellCustom>Nombre</TableCellCustom>
                                 {report.sub.map(item => (
-                                  <TableCellCustom>{moment(item.date).format('DD/MM/YYYY')}</TableCellCustom>
+                                  <TableCellCustom>{moment
+                                    (item.date).format('DD/MM/YYYY')}</TableCellCustom>
                                 ))}
                                 <TableCellCustom>Nombre</TableCellCustom>
                               </TableRowCustom>
@@ -281,7 +287,7 @@ const BloodTest = ({
                                         .join('/')}
                                     </TableCellCustom>
                                   </TableRowCustom>
-                                ))} */}
+                                ))}
                             </TableBody>
                           </Table>
                         </Box>
@@ -302,7 +308,7 @@ const BloodTest = ({
             </Button>
           </BoxPrint>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
 
       {/* nuevo */}
       <Dialog
