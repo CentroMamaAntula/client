@@ -73,7 +73,7 @@ const BloodTest = ({
 
   /* const progress = () => {
     const { reports } = data;
-    const rows = 
+    const rows =
   }; */
 
   const handleCloseViewProgress = () => {
@@ -222,15 +222,15 @@ const BloodTest = ({
             <Button onClick={handleCloseView} color="primary">
               Cerrar
             </Button>
-            <Button onClick={window.print} color="primary">
+            {/* <Button onClick={window.print} color="primary">
               Imprimir
-            </Button>
+            </Button> */}
           </BoxPrint>
         </DialogActions>
       </Dialog>
 
       {/* view progresion */}
-      {/* <Dialog
+      <Dialog
         fullWidth
         maxWidth={'xl'}
         open={openViewProgress}
@@ -267,8 +267,7 @@ const BloodTest = ({
                               <TableRowCustom>
                                 <TableCellCustom>Nombre</TableCellCustom>
                                 {report.sub.map(item => (
-                                  <TableCellCustom>{moment
-                                    (item.date).format('DD/MM/YYYY')}</TableCellCustom>
+                                  <TableCellCustom>{moment(item.date).format('DD/MM/YYYY')}</TableCellCustom>
                                 ))}
                                 <TableCellCustom>Nombre</TableCellCustom>
                               </TableRowCustom>
@@ -287,7 +286,7 @@ const BloodTest = ({
                                         .join('/')}
                                     </TableCellCustom>
                                   </TableRowCustom>
-                                ))}
+                                ))} */}
                             </TableBody>
                           </Table>
                         </Box>
@@ -303,12 +302,12 @@ const BloodTest = ({
             <Button onClick={handleCloseView} color="primary">
               Cerrar
             </Button>
-            <Button onClick={window.print} color="primary">
+            {/* <Button onClick={window.print} color="primary">
               Imprimir
-            </Button>
+            </Button> */}
           </BoxPrint>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
 
       {/* nuevo */}
       <Dialog
