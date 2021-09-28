@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import clsx from 'clsx';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -17,26 +16,48 @@ import {
   DialogTitle,
   CardContent,
   MenuItem,
-  Table,
-  TableHead,
-  TableBody
+  makeStyles,
+  Divider,
+  FormControlLabel,
+  Checkbox, DialogActions, DialogContent, DialogContentText, Table, TableHead, TableBody
 } from '@material-ui/core';
-
-import TableCellCustom from 'src/components/TableCellCustom';
+import Tab from 'src/components/Tab';
+import moment from 'moment';
+import styled from 'styled-components';
+import { display } from '@material-ui/system';
 import TableRowCustom from 'src/components/TableRowlCustom';
-import { initialValues, validationSchema } from '../utils';
+import TableCellCustom from 'src/components/TableCellCustom';
+import initialValues from '../utils';
 
+const BoxPrint = styled('div')`${display}`;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%'
+  },
+  paper: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2.5),
+  },
+  subpaper: {
+    paddingTop: theme.spacing(1),
+  }
+}));
 const BloodTest = ({
   className,
   user,
   paciente,
   data,
-  addEvolution,
-  getEvolutions,
+  addReport,
+  getReports,
   ...rest
 }) => {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openView, setOpenView] = useState(false);
+  const [openViewProgress, setOpenViewProgress] = useState(false);
+  const [reportActual, setReportActual] = useState({});
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,29 +67,244 @@ const BloodTest = ({
     setOpen(false);
   };
 
-  const handleClickView = () => {
+  const handleClickViewProgress = () => {
+    setOpenViewProgress(true);
+  };
+
+  const handleCloseViewProgress = () => {
+    setOpenViewProgress(false);
+  };
+  const handleClickView = (e, item) => {
+    setReportActual(item);
     setOpenView(true);
   };
 
   const handleCloseView = () => {
+    setReportActual({});
     setOpenView(false);
   };
 
   return (
-    <Card className={clsx(className)} {...rest}>
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader
         title="Laboratorio"
         titleTypographyProps={{ variant: 'h3' }}
         action={
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={handleClickOpen}
-          >
-            Nuevo
-          </Button>
+          <Fragment>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={handleClickViewProgress}
+            >
+              Historico
+            </Button>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={handleClickOpen}
+            >
+              Nuevo
+            </Button>
+          </Fragment>
         }
       />
+      <CardContent>
+        <Grid container spacing={1} p={2}>
+          {data !== null &&
+            data.reports.map((item) => (
+              <Grid item xl={3} key={item._id}>
+                <Box>
+                  <Typography variant="h5">
+                    {moment(item.date).format('DD/MM/YYYY HH:mm')}
+                  </Typography>
+                  {item.report.map(report => (
+                    <Typography variant="h4" key={report._id}>
+                      {report.description}
+                    </Typography>))}
+                  <Typography variant="h6">
+                    {`Bioquimico/a ${item.professional_name.name}`}
+                  </Typography>
+                </Box>
+                <Box m={3}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    size="small"
+                    onClick={e => handleClickView(e, item)}
+                  >
+                    VER
+                  </Button>
+                </Box>
+              </Grid>))}
+        </Grid>
+      </CardContent>
+
+      {/* view report */}
+      <Dialog
+        fullWidth
+        maxWidth={'xl'}
+        open={openView}
+        scroll={'body'}
+        onClose={handleCloseView}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">
+          <BoxPrint display="none" displayPrint="block">
+            <Typography variant="h1" color="initial">
+              {'Laboratorio'}
+            </Typography>
+            <Typography variant="h2" color="initial">
+              {'Centro de Salud Mama Antula'}
+            </Typography>
+          </BoxPrint>
+          <Typography variant="h1" color="initial">
+            {reportActual && `Analisís del ${new Date(reportActual.date).toLocaleString()}`}
+          </Typography>
+        </DialogTitle>
+        <DialogContent dividers>
+          <DialogContentText
+            id="scroll-dialog-description"
+          >
+            { reportActual.report &&
+              reportActual.report.map(element => (
+                <Grid container item xl={12} key={element._id}>
+                  <Typography variant="h3" color="initial">
+                    {element.description}
+                  </Typography>
+                  {element.sub.map(subelement => (
+                    subelement.disabled
+                    ?
+                      <Grid item xs={12}>
+                        <Typography variant="h4" color="initial" className={classes.subpaper}>
+                          {subelement.description}
+                        </Typography>
+                      </Grid>
+                    :
+                      <Grid container item xs={12} m={4} key={subelement._id}>
+                        <Grid item xl={4}>
+                          <Typography variant="h5" color="initial" className={classes.paper}>
+                            {subelement.description}
+                          </Typography>
+                        </Grid>
+                        <Grid item xl={3}>
+                          <Typography variant="h5" color="initial" className={classes.paper}>
+                            {`${subelement.value} ${subelement.unit}`}
+                          </Typography>
+                        </Grid>
+                        <Grid item xl={5}>
+                          <Typography variant="h5" color="initial" className={classes.paper}>
+                            {'VR '}
+                            {subelement.type === 'text'
+                              ? subelement.reference_values.map(value => `${value.type}: ${value.name}`)
+                              : subelement.reference_values.map(value => `${value.type}: ${value.min ? `desde ${value.min}${subelement.unit}, ` : ''} ${value.max ? `hasta ${value.max}${subelement.unit} - ` : ''}`)}
+                          </Typography>
+                        </Grid>
+                        <Divider />
+                      </Grid>
+                  ))}
+                </Grid>
+            ))}
+            <Box display="flex" justifyContent="flex-end" m={2} p={1}>
+              <Typography variant="h3" color="initial">
+                {reportActual.professional_name && `Bioquimico ${reportActual.professional_name.name}`}
+              </Typography>
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <BoxPrint displayPrint="none">
+            <Button onClick={handleCloseView} color="primary">
+              Cerrar
+            </Button>
+            <Button onClick={window.print} color="primary">
+              Imprimir
+            </Button>
+          </BoxPrint>
+        </DialogActions>
+      </Dialog>
+
+      {/* view progresion */}
+      <Dialog
+        fullWidth
+        maxWidth={'xl'}
+        open={openViewProgress}
+        scroll={'paper'}
+        onClose={handleCloseViewProgress}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">
+          <Typography variant="h1" color="initial">
+            {}
+          </Typography>
+        </DialogTitle>
+        <DialogContent dividers>
+          <DialogContentText
+            id="scroll-dialog-description"
+          >
+            {
+              data !== null &&
+              data.reports.map((item) => (
+                <Grid item xl={3} key={item._id}>
+                  <Box>
+                    <Typography variant="h5">
+                      {moment(item.date).format('DD/MM/YYYY')}
+                    </Typography>
+                    {item.report.map(report => (
+                      <Fragment>
+                        <Typography variant="h4" key={report._id}>
+                          {report.description}
+                        </Typography>
+                        <Box height="auto" display="flex" alignItems="center">
+                          <Table>
+                            <TableHead>
+                              <TableRowCustom>
+                                <TableCellCustom>Nombre</TableCellCustom>
+                                {report.sub.map(item => (
+                                  <TableCellCustom>{moment(item.date).format('DD/MM/YYYY')}</TableCellCustom>
+                                ))}
+                                <TableCellCustom>Nombre</TableCellCustom>
+                              </TableRowCustom>
+                            </TableHead>
+                            <TableBody>
+                              {/* <TableCellCustom>{}</TableCellCustom>
+                              {data !== null &&
+                                data.hisopados.map(hisopado => (
+                                  <TableRowCustom hover key={hisopado._id}>
+                                    <TableCellCustom>
+                                      {new Date(hisopado.date)
+                                        .toJSON()
+                                        .slice(0, 10)
+                                        .split('-')
+                                        .reverse()
+                                        .join('/')}
+                                    </TableCellCustom>
+                                  </TableRowCustom>
+                                ))} */}
+                            </TableBody>
+                          </Table>
+                        </Box>
+                      </Fragment>
+                      ))}
+                  </Box>
+                </Grid>))
+            }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <BoxPrint displayPrint="none">
+            <Button onClick={handleCloseView} color="primary">
+              Cerrar
+            </Button>
+            <Button onClick={window.print} color="primary">
+              Imprimir
+            </Button>
+          </BoxPrint>
+        </DialogActions>
+      </Dialog>
+
+      {/* nuevo */}
       <Dialog
         fullWidth
         maxWidth={'xl'}
@@ -80,14 +316,19 @@ const BloodTest = ({
         <Container maxWidth="xl">
           <Formik
             initialValues={initialValues}
-            validationSchema={Yup.object().shape(validationSchema)}
+            /* validationSchema={Yup.object().shape(validationSchema)} */
             onSubmit={values => {
+              values = values.filter(value => value.disabled);
+              values.forEach(value => {
+                value.sub = value.sub.filter(sub => sub.value !== '');
+              });
               values = {
-                ...values,
-                professional_name: user._id,
-                id_paciente: paciente._id
+                date: Date.now(),
+                report: values,
+                id_paciente: paciente._id,
+                professional_name: user._id
               };
-              addEvolution(values);
+              addReport(values);
               handleClose();
             }}
           >
@@ -106,670 +347,73 @@ const BloodTest = ({
                     Laboratorio
                   </Typography>
                 </Box>
-                <Grid
-                  container
-                  justify="center"
-                  spacing={1}
-                  alignItems="center"
-                >
-                  <Grid item lg={4} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.date && errors.date)}
-                      fullWidth
-                      helperText={touched.date && errors.date}
-                      label="Fecha"
-                      name="date"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="date"
-                      value={values.date}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.rtoGr && errors.rtoGr)}
-                      fullWidth
-                      helperText={touched.rtoGr && errors.rtoGr}
-                      label="Rto Globulos Rojos"
-                      name="rtoGr"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.rtoGr}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.hb && errors.hb)}
-                      fullWidth
-                      helperText={touched.hb && errors.hb}
-                      label="hb"
-                      name="hb"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.hb}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.hto && errors.hto)}
-                      fullWidth
-                      helperText={touched.hto && errors.hto}
-                      label="Hto"
-                      name="hto"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.hto}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.rdw && errors.rdw)}
-                      fullWidth
-                      helperText={touched.rdw && errors.rdw}
-                      label="rdw"
-                      name="rdw"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.rdw}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.vmc && errors.vmc)}
-                      fullWidth
-                      helperText={touched.vmc && errors.vmc}
-                      label="vmc"
-                      name="vmc"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.vmc}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.hcm && errors.hcm)}
-                      fullWidth
-                      helperText={touched.hcm && errors.hcm}
-                      label="hcm"
-                      name="hcm"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.hcm}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.chcm && errors.chcm)}
-                      fullWidth
-                      helperText={touched.chcm && errors.chcm}
-                      label="CHCM"
-                      name="chcm"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.chcm}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.rtogb && errors.rtogb)}
-                      fullWidth
-                      helperText={touched.rtogb && errors.rtogb}
-                      label="Rto Globulos Blancos"
-                      name="rtogb"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.rtogb}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.nj && errors.nj)}
-                      fullWidth
-                      helperText={touched.nj && errors.nj}
-                      label="Nj"
-                      name="nj"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.nj}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.e && errors.e)}
-                      fullWidth
-                      helperText={touched.e && errors.e}
-                      label="E"
-                      name="e"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.e}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.b && errors.b)}
-                      fullWidth
-                      helperText={touched.b && errors.b}
-                      label="B"
-                      name="b"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.b}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.m && errors.m)}
-                      fullWidth
-                      helperText={touched.m && errors.m}
-                      label="M"
-                      name="m"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.m}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.l && errors.l)}
-                      fullWidth
-                      helperText={touched.l && errors.l}
-                      label="L"
-                      name="l"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.l}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.rtoPlaq && errors.rtoPlaq)}
-                      fullWidth
-                      helperText={touched.rtoPlaq && errors.rtoPlaq}
-                      label="Rto Plaquetas"
-                      name="rtoPlaq"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.rtoPlaq}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.tp && errors.tp)}
-                      fullWidth
-                      helperText={touched.tp && errors.tp}
-                      label="TP"
-                      name="tp"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.tp}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.porcAct && errors.porcAct)}
-                      fullWidth
-                      helperText={touched.porcAct && errors.porcAct}
-                      label="% act"
-                      name="porcAct"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.porcAct}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.kptt && errors.kptt)}
-                      fullWidth
-                      helperText={touched.kptt && errors.kptt}
-                      label="KPTT"
-                      name="kptt"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.kptt}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.rin && errors.rin)}
-                      fullWidth
-                      helperText={touched.rin && errors.rin}
-                      label="RIN"
-                      name="rin"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.rin}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.dimenD && errors.dimenD)}
-                      fullWidth
-                      helperText={touched.dimenD && errors.dimenD}
-                      label="Dimen D"
-                      name="dimenD"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.dimenD}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.ferritina && errors.ferritina)}
-                      fullWidth
-                      helperText={touched.ferritina && errors.ferritina}
-                      label="Ferritina"
-                      name="ferritina"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.ferritina}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.glucemia && errors.glucemia)}
-                      fullWidth
-                      helperText={touched.glucemia && errors.glucemia}
-                      label="Glucemia"
-                      name="glucemia"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.glucemia}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.urea && errors.urea)}
-                      fullWidth
-                      helperText={touched.urea && errors.urea}
-                      label="Urea"
-                      name="urea"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.urea}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.creatinina && errors.creatinina)}
-                      fullWidth
-                      helperText={touched.creatinina && errors.creatinina}
-                      label="Creatinina"
-                      name="creatinina"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.creatinina}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.got && errors.got)}
-                      fullWidth
-                      helperText={touched.got && errors.got}
-                      label="GOT"
-                      name="got"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.got}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.gpt && errors.gpt)}
-                      fullWidth
-                      helperText={touched.gpt && errors.gpt}
-                      label="GPT"
-                      name="gpt"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.gpt}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.fal && errors.fal)}
-                      fullWidth
-                      helperText={touched.fal && errors.fal}
-                      label="FAL"
-                      name="fal"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.fal}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.bilFoml && errors.bilFoml)}
-                      fullWidth
-                      helperText={touched.bilFoml && errors.bilFoml}
-                      label="bilFoml"
-                      name="bilFoml"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.bilFoml}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.BilD && errors.BilD)}
-                      fullWidth
-                      helperText={touched.BilD && errors.BilD}
-                      label="BilD"
-                      name="BilD"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.BilD}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.BilInd && errors.BilInd)}
-                      fullWidth
-                      helperText={touched.BilInd && errors.BilInd}
-                      label="BilInd"
-                      name="BilInd"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.BilInd}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.grupoSang && errors.grupoSang)}
-                      fullWidth
-                      select
-                      helperText={touched.grupoSang && errors.grupoSang}
-                      label="Grupo Sang"
-                      name="grupoSang"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="text"
-                      value={values.grupoSang}
-                      variant="outlined"
-                    >
-                      <MenuItem value="A">A</MenuItem>
-                      <MenuItem value="B">B</MenuItem>
-                      <MenuItem value="O">O</MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.factorRH && errors.factorRH)}
-                      fullWidth
-                      select
-                      helperText={touched.factorRH && errors.factorRH}
-                      label="Factor RH"
-                      name="factorRH"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="text"
-                      value={values.factorRH}
-                      variant="outlined"
-                    >
-                      <MenuItem value="-">-</MenuItem>
-                      <MenuItem value="+">+</MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.vsg && errors.vsg)}
-                      fullWidth
-                      helperText={touched.vsg && errors.vsg}
-                      label="vsg"
-                      name="vsg"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.vsg}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.ldh && errors.ldh)}
-                      fullWidth
-                      helperText={touched.ldh && errors.ldh}
-                      label="LDH"
-                      name="ldh"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.ldh}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.pcr && errors.pcr)}
-                      fullWidth
-                      helperText={touched.pcr && errors.pcr}
-                      label="PCR"
-                      name="pcr"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.pcr}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.ph && errors.ph)}
-                      fullWidth
-                      helperText={touched.ph && errors.ph}
-                      label="pH"
-                      name="ph"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.ph}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.pCO2 && errors.pCO2)}
-                      fullWidth
-                      helperText={touched.pCO2 && errors.pCO2}
-                      label="pCO2"
-                      name="pCO2"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.pCO2}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.pO2 && errors.pO2)}
-                      fullWidth
-                      helperText={touched.pO2 && errors.pO2}
-                      label="pO2"
-                      name="pO2"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.pO2}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.sat && errors.sat)}
-                      fullWidth
-                      helperText={touched.sat && errors.sat}
-                      label="Saturación"
-                      name="sat"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.sat}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.HCO3 && errors.HCO3)}
-                      fullWidth
-                      helperText={touched.HCO3 && errors.HCO3}
-                      label="HCO3-"
-                      name="HCO3"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.HCO3}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.excB && errors.excB)}
-                      fullWidth
-                      helperText={touched.excB && errors.excB}
-                      label="excB"
-                      name="excB"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.excB}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.nat && errors.nat)}
-                      fullWidth
-                      helperText={touched.nat && errors.nat}
-                      label="nat"
-                      name="nat"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.nat}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.k && errors.k)}
-                      fullWidth
-                      helperText={touched.k && errors.k}
-                      label="K+"
-                      name="k"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.k}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.cl && errors.cl)}
-                      fullWidth
-                      helperText={touched.cl && errors.cl}
-                      label="Cl-"
-                      name="cl"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="number"
-                      value={values.cl}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item lg={2} md={6} xs={10}>
-                    <TextField
-                      error={Boolean(touched.orina && errors.orina)}
-                      fullWidth
-                      helperText={touched.orina && errors.orina}
-                      label="Orina"
-                      name="orina"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="text"
-                      value={values.orina}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      error={Boolean(
-                        touched.observations && errors.observations
-                      )}
-                      fullWidth
-                      multiline
-                      rows={5}
-                      helperText={touched.observations && errors.observations}
-                      label="Observaciones"
-                      name="observations"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      type="text"
-                      value={values.observations}
-                      variant="outlined"
-                    />
-                  </Grid>
-                </Grid>
+                <Tab
+                  grid
+                  tabs={values.map(item => item)}
+                  tabPanel={
+                    values.map((item, i) => (
+                      <Fragment>
+                        <Grid item xs={12} key={'a'.concat(i)}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={values[i].disabled}
+                                onChange={handleChange}
+                                name={`[${i}].disabled`}
+                                color="primary"
+                              />
+                            }
+                            label="Incluir"
+                          />
+                        </Grid>
+                        {item.sub.map((subitem, j) => (
+                          subitem.disabled ?
+                            (
+                              <Grid mb={2} mt={4} item xs={12} key={'a'.concat(j + i)}>
+                                <Typography color="textPrimary" variant="h4">
+                                  {subitem.description}
+                                </Typography>
+                              </Grid>
+                            )
+                          : (
+                            <Grid mb={2} item xl={6} md={12} key={'a'.concat(j + i)}>
+                              <TextField
+                                /* error={Boolean(touched[j] && errors[j])} */
+                                fullWidth
+                                /* helperText={touched[j] && errors[j]} */
+                                label={`${values[i].sub[j].description} 
+                                  || VR: ${values[i].sub[j].type === 'text'
+                                    ?
+                                      values[i].sub[j].reference_values.map(value => `${value.type}: ${value.name}`)
+                                    :
+                                      values[i].sub[j].reference_values.map(value => `${value.type}: ${value.min ? `desde ${value.min}` : ''}, ${value.max ? `hasta ${value.max}` : ''}`)}
+                                  ${values[i].sub[j].unit}`}
+                                name={`[${i}].sub[${j}].value`}
+                                onBlur={handleBlur}
+                                margin="normal"
+                                disabled={!values[i].disabled}
+                                onChange={handleChange}
+                                type={values[i].sub[j].type ? values[i].sub[j].type : 'text'}
+                                value={values[i].sub[j].value}
+                                variant="outlined"
+                                multiline={values[i].sub[j].multiline}
+                                rows={values[i].sub[j].multiline ? 6 : 1}
+                                select={values[i].sub[j].select}
+                              >
+                                {values[i].sub[j].select
+                                  ? values[i].sub[j].items.map(option => (
+                                    <MenuItem key={option} value={option}>
+                                      {option}
+                                    </MenuItem>
+                                  ))
+                                  : null}
+                              </TextField>
+                            </Grid>
+                          )))}
+                      </Fragment>
+                    ))
+                    }
+                />
                 <Box my={2}>
                   <Button
                     color="primary"
@@ -787,157 +431,6 @@ const BloodTest = ({
           </Formik>
         </Container>
       </Dialog>
-      <CardContent>
-        <Box m={3}>
-          <Grid container justify="center" spacing={1}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="large"
-              onClick={handleClickView}
-            >
-              VER
-            </Button>
-          </Grid>
-        </Box>
-        <Dialog
-          fullWidth
-          maxWidth={'xl'}
-          open={openView}
-          onClose={handleCloseView}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title" />
-          <Container maxWidth="xl">
-            <PerfectScrollbar>
-              <Box display="flex" alignItems="center" m={3}>
-                <Table>
-                  <TableHead>
-                    <TableRowCustom>
-                      <TableCellCustom>Fecha</TableCellCustom>
-                      <TableCellCustom>Rto Globulos Rojos</TableCellCustom>
-                      <TableCellCustom>HB</TableCellCustom>
-                      <TableCellCustom>Hto</TableCellCustom>
-                      <TableCellCustom>RDW</TableCellCustom>
-                      <TableCellCustom>VMC</TableCellCustom>
-                      <TableCellCustom>HCM</TableCellCustom>
-                      <TableCellCustom>CHCM</TableCellCustom>
-                      <TableCellCustom>Rto Globulos Blancos</TableCellCustom>
-                      <TableCellCustom>Nj</TableCellCustom>
-                      <TableCellCustom>E</TableCellCustom>
-                      <TableCellCustom>B</TableCellCustom>
-                      <TableCellCustom>M</TableCellCustom>
-                      <TableCellCustom>L</TableCellCustom>
-                      <TableCellCustom>Rto Plaquetas</TableCellCustom>
-                      <TableCellCustom>TP</TableCellCustom>
-                      <TableCellCustom>% act</TableCellCustom>
-                      <TableCellCustom>KPTT</TableCellCustom>
-                      <TableCellCustom>RIN</TableCellCustom>
-                      <TableCellCustom>Dimen D</TableCellCustom>
-                      <TableCellCustom>Ferritina</TableCellCustom>
-                      <TableCellCustom>Glucemia</TableCellCustom>
-                      <TableCellCustom>Creatinina</TableCellCustom>
-                      <TableCellCustom>GOT</TableCellCustom>
-                      <TableCellCustom>GPT</TableCellCustom>
-                      <TableCellCustom>FAL</TableCellCustom>
-                      <TableCellCustom>Bil Foml</TableCellCustom>
-                      <TableCellCustom>BilD</TableCellCustom>
-                      <TableCellCustom>BilInd</TableCellCustom>
-                      <TableCellCustom>Grupo Sang</TableCellCustom>
-                      <TableCellCustom>Factor RH</TableCellCustom>
-                      <TableCellCustom>VSG</TableCellCustom>
-                      <TableCellCustom>LDH</TableCellCustom>
-                      <TableCellCustom>PCR</TableCellCustom>
-                      <TableCellCustom>pH</TableCellCustom>
-                      <TableCellCustom>pCO2</TableCellCustom>
-                      <TableCellCustom>pO2</TableCellCustom>
-                      <TableCellCustom>Sat</TableCellCustom>
-                      <TableCellCustom>HCO3</TableCellCustom>
-                      <TableCellCustom>ExcB</TableCellCustom>
-                      <TableCellCustom>Nat</TableCellCustom>
-                      <TableCellCustom>K+</TableCellCustom>
-                      <TableCellCustom>Cl-</TableCellCustom>
-                      <TableCellCustom>Orina</TableCellCustom>
-                      <TableCellCustom>Observaciones</TableCellCustom>
-                    </TableRowCustom>
-                  </TableHead>
-                  <TableBody>
-                    {data !== null &&
-                      data.evolutions.map(evolution => (
-                        <TableRowCustom hover key={evolution._id}>
-                          <TableCellCustom>
-                            {new Date(evolution.date)
-                              .toJSON()
-                              .slice(0, 10)
-                              .split('-')
-                              .reverse()
-                              .join('/')}
-                          </TableCellCustom>
-                          <TableCellCustom>{evolution.rtoGr}</TableCellCustom>
-                          <TableCellCustom>{evolution.hb}</TableCellCustom>
-                          <TableCellCustom>{evolution.hto}</TableCellCustom>
-                          <TableCellCustom>{evolution.rdw}</TableCellCustom>
-                          <TableCellCustom>{evolution.vmc}</TableCellCustom>
-                          <TableCellCustom>{evolution.hcm}</TableCellCustom>
-                          <TableCellCustom>{evolution.chcm}</TableCellCustom>
-                          <TableCellCustom>{evolution.rtogb}</TableCellCustom>
-                          <TableCellCustom>{evolution.nj}</TableCellCustom>
-                          <TableCellCustom>{evolution.e}</TableCellCustom>
-                          <TableCellCustom>{evolution.b}</TableCellCustom>
-                          <TableCellCustom>{evolution.m}</TableCellCustom>
-                          <TableCellCustom>{evolution.l}</TableCellCustom>
-                          <TableCellCustom>{evolution.rtoPlaq}</TableCellCustom>
-                          <TableCellCustom>{evolution.tp}</TableCellCustom>
-                          <TableCellCustom>{evolution.porcAct}</TableCellCustom>
-                          <TableCellCustom>{evolution.kptt}</TableCellCustom>
-                          <TableCellCustom>{evolution.rin}</TableCellCustom>
-                          <TableCellCustom>{evolution.dimenD}</TableCellCustom>
-                          <TableCellCustom>
-                            {evolution.ferritina}
-                          </TableCellCustom>
-                          <TableCellCustom>
-                            {evolution.glucemia}
-                          </TableCellCustom>
-                          <TableCellCustom>
-                            {evolution.creatinina}
-                          </TableCellCustom>
-                          <TableCellCustom>{evolution.got}</TableCellCustom>
-                          <TableCellCustom>{evolution.gpt}</TableCellCustom>
-                          <TableCellCustom>{evolution.fal}</TableCellCustom>
-                          <TableCellCustom>{evolution.bilFoml}</TableCellCustom>
-                          <TableCellCustom>{evolution.BilD}</TableCellCustom>
-                          <TableCellCustom>{evolution.BilInd}</TableCellCustom>
-                          <TableCellCustom>
-                            {evolution.grupoSang}
-                          </TableCellCustom>
-                          <TableCellCustom>
-                            {evolution.factorRH}
-                          </TableCellCustom>
-                          <TableCellCustom>{evolution.vsg}</TableCellCustom>
-                          <TableCellCustom>{evolution.ldh}</TableCellCustom>
-                          <TableCellCustom>{evolution.pcr}</TableCellCustom>
-                          <TableCellCustom>{evolution.ph}</TableCellCustom>
-                          <TableCellCustom>{evolution.pCO2}</TableCellCustom>
-                          <TableCellCustom>{evolution.pO2}</TableCellCustom>
-                          <TableCellCustom>{evolution.sat}</TableCellCustom>
-                          <TableCellCustom>{evolution.HCO3}</TableCellCustom>
-                          <TableCellCustom>{evolution.excB}</TableCellCustom>
-                          <TableCellCustom>{evolution.nat}</TableCellCustom>
-                          <TableCellCustom>{evolution.k}</TableCellCustom>
-                          <TableCellCustom>{evolution.cl}</TableCellCustom>
-                          <TableCellCustom>{evolution.orina}</TableCellCustom>
-                          <TableCellCustom>
-                            {evolution.observations}
-                          </TableCellCustom>
-                        </TableRowCustom>
-                      ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </PerfectScrollbar>
-          </Container>
-        </Dialog>
-      </CardContent>
     </Card>
   );
 };
@@ -946,8 +439,8 @@ BloodTest.propTypes = {
   className: PropTypes.string,
   paciente: PropTypes.object,
   data: PropTypes.object,
-  addEvolution: PropTypes.func,
-  getEvolutionss: PropTypes.func
+  addReport: PropTypes.func,
+  getReports: PropTypes.func
 };
 
 export default BloodTest;

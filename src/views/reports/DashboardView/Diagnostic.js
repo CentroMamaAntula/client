@@ -45,7 +45,6 @@ const Diagnostic = ({
   ...rest
 }) => {
   const classes = useStyles();
-
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

@@ -3,15 +3,15 @@ import LaboratoryContext from './laboratoryContext';
 import LaboratoryReducer from './laboratoryReducer';
 import clienteAxios from '../../config/axios';
 import {
-  ADD_EVOLUTION_LAB,
-  GET_EVOLUTION_LAB,
+  ADD_REPORT_LAB,
+  GET_REPORT_LAB,
   LOADING_LAB,
   ERROR_LAB
 } from '../../types';
 
 const LaboratoryState = props => {
   const initialState = {
-    evolution: null,
+    report: null,
     message: '',
     loading: false
   };
@@ -19,11 +19,11 @@ const LaboratoryState = props => {
   const [state, dispatch] = useReducer(LaboratoryReducer, initialState);
 
   //funciones
-  const addEvolution = async datos => {
+  const addReport = async datos => {
     try {
       const respuesta = await clienteAxios.post('/api/laboratory', datos);
       dispatch({
-        type: ADD_EVOLUTION_LAB,
+        type: ADD_REPORT_LAB,
         payload: respuesta.data
       });
     } catch (error) {
@@ -34,7 +34,7 @@ const LaboratoryState = props => {
     }
   };
 
-  const getEvolutions = async data => {
+  const getReports = async data => {
     dispatch({
       type: LOADING_LAB
     });
@@ -43,7 +43,7 @@ const LaboratoryState = props => {
         params: { id_paciente: data.id_paciente }
       });
       dispatch({
-        type: GET_EVOLUTION_LAB,
+        type: GET_REPORT_LAB,
         payload: respuesta.data
       });
     } catch (error) {
@@ -57,11 +57,11 @@ const LaboratoryState = props => {
   return (
     <LaboratoryContext.Provider
       value={{
-        evolution: state.evolution,
+        report: state.report,
         message: state.message,
         loading: state.loading,
-        addEvolution,
-        getEvolutions
+        addReport,
+        getReports
       }}
     >
       {props.children}

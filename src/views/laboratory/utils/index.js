@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
+import clinic from 'src/utils/clinic';
 
-export const initialValues = {
+export default clinic;
+/*  {
   date: new Date().toJSON().slice(0, 10),
   rtoGr: '',
   hb: '',
@@ -47,7 +49,7 @@ export const initialValues = {
   cl: '',
   orina: '',
   observations: ''
-};
+}; */
 
 export const validationSchema = {
   date: Yup.date('Debe ingresar una fecha valida'),

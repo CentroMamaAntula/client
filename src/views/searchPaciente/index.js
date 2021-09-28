@@ -37,7 +37,7 @@ const SearchPaciente = ({ user }) => {
   }, [paciente]);
 
   return (
-    <Grid container justify="center" spacing={1}>
+    <Grid container justifyContent="center" spacing={1}>
       <Grid item lg={12} sm={12} xl={12} xs={12}>
         <Toolbar
           getPaciente={getPaciente}

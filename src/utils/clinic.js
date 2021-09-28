@@ -1,340 +1,1159 @@
 export default [
   {
-    name: 'Hemograma',
+    name: 'hemograma',
+    description: 'Hemograma',
     code: 'A00-B99',
+    disabled: false,
     sub: [
       {
-        name: 'Recuento de eritrocitos',
-        value: 0,
-        unit: 'billones de células/L',
+        name: 'serieRoja',
+        description: 'Serie Roja',
+        disabled: true
+      },
+      {
+        name: 'globulosRojos',
+        description: 'Recuento de Globulos Blancos',
+        value: '',
+        type: 'number',
+        unit: 'T/L',
         reference_values: [
-          { type: 'hombre', value: '4.35-5.65' },
-          { type: 'mujer', value: '3.92-5.13' }
+          { type: '', min: 4.60, max: 6.30 },
         ]
       },
       {
-        name: 'Hemoglobina',
-        value: 0,
+        name: 'hemoglobina',
+        description: 'Hemoglobina',
+        value: '',
+        type: 'number',
         unit: 'gramos/dL',
         reference_values: [
-          { type: 'hombre', value: '13.2-16.6' },
-          { type: 'mujer', value: '11.6-15' }
+          { type: '', min: 14, max: 19 },
         ]
       },
       {
-        name: 'Hematocritos',
-        value: 0,
+        name: 'hematocritos',
+        description: 'Hematocritos',
+        value: '',
+        type: 'number',
         unit: '%',
         reference_values: [
-          { type: 'hombre', value: '38.3-48.6' },
-          { type: 'mujer', value: '35.5-44.9' }
+          { type: '', min: 42, max: 52 },
         ]
       },
       {
-        name: 'Recuento de leucocitos',
-        value: 0,
-        unit: 'billones de células/L',
-        reference_values: [{ type: '', value: '3.4-9.6' }]
+        name: 'rdw',
+        description: 'Distribucion de tamaño',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [{ type: '', min: 10, max: 14 }]
       },
       {
-        name: 'Recuento de plaquetas',
-        value: 0,
-        unit: 'billones/L',
+        name: 'indicesHematimetricos',
+        description: 'Índices Hematimetricos',
+        disabled: true
+      },
+      {
+        name: 'vmc',
+        description: 'Volumen Corpuscular Medio (VMC)',
+        value: '',
+        type: 'number',
+        unit: 'fL',
         reference_values: [
-          { type: 'hombre', value: '135-317' },
-          { type: 'mujer', value: '157-371' }
+          { type: '', min: 80, max: 99 },
+        ]
+      },
+      {
+        name: 'hcm',
+        description: 'Hemoglobina Corpuscular Media (HCM)',
+        value: '',
+        unit: 'pg',
+        reference_values: [
+          { type: '', min: 27, max: 31 },
+        ]
+      },
+      {
+        name: 'chcm',
+        description: 'Concentración de HB corpuscular (CHCM)',
+        value: '',
+        type: 'number',
+        unit: 'g/dL',
+        reference_values: [
+          { type: '', min: 32, max: 34 },
+        ]
+      },
+      {
+        name: 'serieBlanca',
+        description: 'Serie Blanca',
+        disabled: true
+      },
+      {
+        name: 'globulosBlancos',
+        description: 'Recuento de Globulos Blancos',
+        value: '',
+        type: 'number',
+        unit: 'g/L',
+        reference_values: [
+          { type: '', min: 4.8, max: 10.3 },
+        ]
+      },
+      {
+        name: 'neutrofilosCayados',
+        description: 'Neutrófilos Cayados',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 0, max: 2 },
+        ],
+      },
+      {
+        name: 'neutrofilos',
+        description: 'Neutrófilos Segmentados',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 40, max: 65 },
+        ],
+      },
+      {
+        name: 'eosinofilos',
+        description: 'Eosinofilos',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 1, max: 4 },
+        ],
+      },
+      {
+        name: 'basofilos',
+        description: 'Basófilos',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 0, max: 1 },
+        ],
+      },
+      {
+        name: 'monocitos',
+        description: 'Monocitos',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 2, max: 10 },
+        ],
+      },
+      {
+        name: 'linfocitos',
+        description: 'Linfocitos',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 20, max: 40 },
+        ],
+      },
+      {
+        name: 'plaquetas',
+        description: 'Recuento de Plaquetas',
+        value: '',
+        type: 'number',
+        unit: '/uL',
+        reference_values: [
+          { type: '', min: 150.000, max: 350.000 },
+        ]
+      },
+      {
+        name: 'observaciones',
+        description: 'Observaciones',
+        value: '',
+        type: 'text',
+        multiline: true,
+        unit: '',
+        reference_values: [],
+      },
+      {
+        name: 'eritrosedimentacion',
+        description: 'Eritrosedimentacion',
+        value: '',
+        type: 'number',
+        unit: 'mm/hr',
+        reference_values: [
+          { type: '', max: 15 },
         ]
       }
-    ],
-    description: ''
-  },
-  { name: 0, code: 'C00-D49', description: 'Tumores [neoplasias]' },
-  {
-    name: 0,
-    code: 'D50-D89',
-    description:
-      'Enfermedades de la sangre y de los \u00f3rganos hematopoy\u00e9ticos, y ciertos trastornos que afectan el mecanismo de la inmunidad'
+    ]
   },
   {
-    name: 0,
-    code: 'E00-E89',
-    description: 'Enfermedades endocrinas, nutricionales y metabolicas'
+    name: 'hemostasia',
+    description: 'Hemostasia',
+    code: 'A00-B00',
+    disabled: false,
+    sub: [
+      {
+        name: 'tp',
+        description: 'Tiempo de Protrombina (TP)',
+        value: '',
+        type: 'number',
+        unit: 'seg',
+        reference_values: [
+          { type: '', min: 10, max: 14 },
+        ]
+      },
+      {
+        name: 'porcentajeActividad',
+        description: 'Porcentaje de Actividad',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: '', min: 70, max: 100 },
+        ]
+      },
+      {
+        name: 'rin',
+        description: 'RIN',
+        value: '',
+        type: 'number',
+        unit: '',
+        reference_values: []
+      },
+      {
+        name: 'kptt',
+        description: 'Tiempo parcial de Tromboplastina (KPTT)',
+        value: '',
+        type: 'number',
+        unit: 'seg',
+        reference_values: [
+          { type: '', min: 24, max: 36 },
+        ]
+      },
+      {
+        name: 'dimeroD',
+        description: 'Dimero D',
+        value: '',
+        type: 'number',
+        unit: 'ug/mL FEU',
+        reference_values: [{ type: '', max: 0.40 }]
+      }
+    ]
   },
   {
-    name: 0,
-    code: 'F01-F99',
-    description: 'Trastornos mentales y del comportamiento'
+    name: 'grupoSanguineo',
+    description: 'Grupo Sanguineo',
+    code: 'A00-B01',
+    disabled: false,
+    sub: [
+      {
+        name: 'grupo',
+        description: 'Grupo',
+        value: 'A',
+        select: true,
+        type: 'text',
+        items: ['A', 'B', 'AB', 'O'],
+        unit: '',
+        reference_values: []
+      },
+      {
+        name: 'factorRH',
+        description: 'Factor RH',
+        value: '+',
+        select: true,
+        type: 'text',
+        items: ['+', '-'],
+        unit: '',
+        reference_values: []
+      }
+    ]
   },
   {
-    name: 0,
-    code: 'G00-G99',
-    description: 'Enfermedades del sistema nervioso'
+    name: 'quimica',
+    description: 'Quimica',
+    code: 'A00-B02',
+    disabled: false,
+    sub: [
+      {
+        name: 'glucemiaBasal',
+        description: 'Glucemia Basal',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', min: 70, max: 110 },
+        ]
+      },
+      {
+        name: 'urea',
+        description: 'Urea',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', min: 10, max: 50 },
+        ]
+      },
+      {
+        name: 'creatinina',
+        description: 'Creatinina',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', min: 0.60, max: 1.30 },
+        ]
+      },
+      {
+        name: 'hepatograma',
+        description: 'Hepatograma',
+        disabled: true
+      },
+      {
+        name: 'got',
+        description: 'Transaminasa glutamica oxalacetico (GOT)',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: '', max: 39 },
+        ]
+      },
+      {
+        name: 'gpt',
+        description: 'Transaminasa glutamica pírúvico (GPT)',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: '', max: 37 },
+        ]
+      },
+      {
+        name: 'fal',
+        description: 'Fosfatasa Alcalina (FAL)',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: '', min: 65, max: 270 },
+        ]
+      },
+      {
+        name: 'bilirrubina',
+        description: 'Billirrubina Total',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 1.00 },
+        ]
+      },
+      {
+        name: 'bilirrubinaDirecta',
+        description: 'Billirrubina Directa',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 0.20 },
+        ]
+      },
+      {
+        name: 'bilirrubinaIndirecta',
+        description: 'Billirrubina Indirecta',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 0.80 },
+        ]
+      },
+      {
+        name: 'ldl',
+        description: 'Lactato deshidrogenasa (LDH)',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: '', min: 230, max: 460 },
+        ]
+      },
+      {
+        name: 'ferritina',
+        description: 'Ferritina',
+        value: '',
+        type: 'number',
+        unit: 'ng/mL',
+        reference_values: [
+          { type: 'hombres', min: 30, max: 300 },
+          { type: 'mujeres < 50años', min: 15, max: 160 },
+          { type: 'mujeres > 50años', min: 20, max: 300 },
+        ]
+      },
+      {
+        name: 'proteinasTotales',
+        description: 'Proteinas Totales',
+        value: '',
+        type: 'number',
+        unit: 'g/dL',
+        reference_values: [
+          { type: '', min: 6.1, max: 7.9 },
+        ]
+      },
+      {
+        name: 'albumina',
+        description: 'Albumina',
+        value: '',
+        type: 'number',
+        unit: 'g/dL',
+        reference_values: [
+          { type: '', min: 3.4, max: 5.4 },
+        ]
+      },
+      {
+        name: 'acidoUrico',
+        description: 'Acido Urico',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', min: 2.5, max: 6.0 },
+        ]
+      },
+      {
+        name: 'pcr',
+        description: 'Proteina C Reactiva',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 6 },
+        ]
+      },
+      {
+        name: 'cpk',
+        description: 'Creatina fosfocinasa (CPK)',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: 'hombres', min: 20, max: 195 },
+          { type: 'mujeres', min: 20, max: 170 },
+        ]
+      },
+      {
+        name: 'amilasa',
+        description: 'Amilasa',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: '', max: 137 },
+        ]
+      },
+      {
+        name: 'albGlob',
+        description: 'Relacion Alb/Glob',
+        value: '',
+        type: 'number',
+        unit: 'U/L',
+        reference_values: [
+          { type: 'mujeres', min: 20, max: 170 },
+        ]
+      },
+      {
+        name: 'procalcitonina',
+        description: 'Procalcitonina',
+        value: '',
+        type: 'number',
+        unit: 'ng/mL',
+        reference_values: [
+          { type: 'Riesgo bajo de sepsis y/o shock séptico', max: 0.5 },
+          { type: 'Riesgo alto de sepsis y/o shock séptico', min: 2 },
+          { type: 'Interpretarse con HC. Volver a valorar PCT en 6-24hs', min: 0.5, max: 2 },
+        ]
+      },
+      {
+        name: 'ionogramaPlasmático',
+        description: 'Ionograma Plasmático',
+        disabled: true
+      },
+      {
+        name: 'sodio',
+        description: 'Sodio (Na+)',
+        value: '',
+        type: 'number',
+        unit: 'mEq/L',
+        reference_values: [
+          { type: '', min: 136, max: 146 },
+        ]
+      },
+      {
+        name: 'potasio',
+        description: 'Potasio (K+)',
+        value: '',
+        type: 'number',
+        unit: 'mEq/L',
+        reference_values: [
+          { type: '', min: 3.5, max: 5.0 },
+        ]
+      },
+      {
+        name: 'cloruro',
+        description: 'Cloruro (Cl-)',
+        value: '',
+        type: 'number',
+        unit: 'mEq/L',
+        reference_values: [
+          { type: '', min: 98, max: 107 },
+        ]
+      },
+      {
+        name: 'perfilLipidico',
+        description: 'Perfil Lipidico',
+        disabled: true
+      },
+      {
+        name: 'colesterol',
+        description: 'Colesterol Total',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 200 },
+        ]
+      },
+      {
+        name: 'colesterolHDL',
+        description: 'Colesterol HDL',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', min: 40, max: 60 },
+        ]
+      },
+      {
+        name: 'colesterolLDL',
+        description: 'Colesterol LDL',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 130 },
+        ]
+      },
+      {
+        name: 'trigliceridos',
+        description: 'Trigliceridos',
+        value: '',
+        type: 'number',
+        unit: 'mg/dL',
+        reference_values: [
+          { type: '', max: 150 },
+        ]
+      },
+    ]
   },
   {
-    name: 0,
-    code: 'H00-H59',
-    description: 'Enfermedades del ojo y sus anexos'
+    name: 'serologia',
+    description: 'Serología',
+    code: 'A00-B03',
+    disabled: false,
+    sub: [
+      {
+        name: 'hiv',
+        description: 'Virus del HIV',
+        value: '',
+        select: true,
+        type: 'text',
+        items: ['', 'Reactivo', 'No Reactivo'],
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Reactivo' }
+        ]
+      },
+      {
+        name: 'vdrl',
+        description: 'V.D.R.L',
+        value: 'No Reactivo',
+        select: true,
+        type: 'text',
+        items: ['Reactivo', 'No Reactivo'],
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Reactivo' }
+        ]
+      },
+      {
+        name: 'chagas',
+        description: 'Chagas (HAI)',
+        value: '',
+        select: true,
+        type: 'text',
+        items: ['', 'Reactivo', 'No Reactivo'],
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Reactivo' }
+        ]
+      },
+      {
+        name: 'hepatitisB',
+        description: 'Hepatitis B Ag de superficie',
+        value: '',
+        select: true,
+        type: 'text',
+        items: ['', 'Reactivo', 'No Reactivo'],
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Reactivo' }
+        ]
+      },
+      {
+        name: 'hCG',
+        description: 'Subunidad beta coriónica humana',
+        value: '',
+        select: true,
+        type: 'text',
+        items: ['', 'Positivo', 'Negativo'],
+        unit: '',
+        reference_values: []
+      },
+      {
+        name: 'hepatitisC',
+        description: 'Hepatitis C',
+        value: '',
+        select: true,
+        type: 'text',
+        items: ['', 'Reactivo', 'No Reactivo'],
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Reactivo' }
+        ]
+      },
+    ]
   },
   {
-    name: 0,
-    code: 'H60-H95',
-    description: 'Enfermedades del o\u00eddo y de la ap\u00f3fisis mastoides'
+    name: 'perfilTiroideo',
+    description: 'Perfil Tiroideo',
+    code: 'A00-B04',
+    disabled: false,
+    sub: [
+      {
+        name: 'tsh',
+        description: 'Tirotrofina (TSH)',
+        value: '',
+        type: 'number',
+        unit: 'uUl/mL',
+        reference_values: [
+          { type: '', min: 0.27, max: 4.20 }
+        ]
+      },
+      {
+        name: 't4',
+        description: 'Tiroxina Total (T4)',
+        value: '',
+        type: 'number',
+        unit: 'ug/dL',
+        reference_values: [
+          { type: '', min: 5.1, max: 13.5 }
+        ]
+      },
+      {
+        name: 't4l',
+        description: 'Tiroxina Libre (T4L)',
+        value: '',
+        type: 'number',
+        unit: 'pmol/L',
+        reference_values: [
+          { type: '', min: 9.0, max: 20 }
+        ]
+      },
+      {
+        name: 't3',
+        description: 'Triyodotironina (T3)',
+        value: '',
+        type: 'number',
+        unit: 'pmol/L',
+        reference_values: []
+      }
+    ]
   },
   {
-    name: 0,
-    code: 'I00-I99',
-    description: 'Enfermedades del sistema circulatorio'
+    name: 'urocultivo',
+    description: 'Urocultivo',
+    code: 'A00-B05',
+    disabled: false,
+    sub: [
+      {
+        name: 'examenFisico',
+        description: 'Examen Fisico',
+        disabled: true
+      },
+      {
+        name: 'color',
+        description: 'Color',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'AMARILLO AMBAR' }
+        ]
+      },
+      {
+        name: 'aspecto',
+        description: 'Aspecto',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'LIMPIDO' }
+        ]
+      },
+      {
+        name: 'densidad',
+        description: 'Densidad',
+        value: '',
+        type: 'number',
+        unit: '',
+        reference_values: [
+          { type: '', min: '', max: '' }
+        ]
+      },
+      {
+        name: 'pH',
+        description: 'pH',
+        value: '',
+        type: 'number',
+        unit: '',
+        reference_values: [
+          { type: '', min: '', max: '' }
+        ]
+      },
+      {
+        name: 'examenMicroscópico',
+        description: 'Examen Microscópico',
+        disabled: true
+      },
+      {
+        name: 'leucocitos',
+        description: 'Leucocitos',
+        value: '',
+        type: 'number',
+        unit: 'POR CAMPO',
+        reference_values: [
+          { type: '', min: '', max: '' }
+        ]
+      },
+      {
+        name: 'hematies',
+        description: 'Hematíes',
+        value: '',
+        type: 'number',
+        unit: 'POR CAMPO',
+        reference_values: [
+          { type: '', min: '', max: '' }
+        ]
+      },
+      {
+        name: 'piocitos',
+        description: 'Piocitos',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'REGULAR' }
+        ]
+      },
+      {
+        name: 'celulas',
+        description: 'Celulas',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'ESCASAS' }
+        ]
+      },
+      {
+        name: 'mucus',
+        description: 'Mucus',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'ESCASO' }
+        ]
+      },
+      {
+        name: 'obs',
+        description: 'Observaciones',
+        value: '',
+        type: 'text',
+        unit: '',
+        multiline: true,
+        reference_values: [
+          { type: '', name: 'ESCASO' }
+        ]
+      },
+      {
+        name: 'gram',
+        description: 'Coloracion de Gram',
+        value: '',
+        type: 'text',
+        unit: '',
+        multiline: true,
+        reference_values: [
+          { type: '', name: '' }
+        ]
+      },
+      {
+        name: 'cultivo',
+        description: 'Cultivo - Aislamiento',
+        value: '',
+        type: 'text',
+        unit: '',
+        multiline: true,
+        reference_values: [
+          { type: '', name: '' }
+        ]
+      },
+      {
+        name: 'antibiograma',
+        description: 'Antibiograma',
+        value: '',
+        type: 'text',
+        unit: '',
+        multiline: true,
+        reference_values: [
+          { type: '', name: '' }
+        ]
+      }
+    ]
   },
   {
-    name: 0,
-    code: 'J00-J99',
-    description: 'Enfermedades del sistema respiratorio'
+    name: 'orina',
+    description: 'Orina Completa',
+    code: 'A00-B06',
+    disabled: false,
+    sub: [
+      {
+        name: 'examenFisico',
+        description: 'Examen Fisico',
+        disabled: true
+      },
+      {
+        name: 'color',
+        description: 'Color',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'AMARILLO AMBAR' }
+        ]
+      },
+      {
+        name: 'aspecto',
+        description: 'Aspecto',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'LIMPIDO' }
+        ]
+      },
+      {
+        name: 'densidad',
+        description: 'Densidad',
+        value: '',
+        type: 'number',
+        unit: '',
+        reference_values: [
+          { type: '', min: '', max: '' }
+        ]
+      },
+      {
+        name: 'pH',
+        description: 'pH',
+        value: '',
+        type: 'number',
+        unit: '',
+        reference_values: [
+          { type: '', min: '', max: '' }
+        ]
+      },
+      {
+        name: 'examenQuímico',
+        description: 'Examen Químico',
+        disabled: true
+      },
+      {
+        name: 'glucosa',
+        description: 'Glucosa',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Contiene' }
+        ]
+      },
+      {
+        name: 'proteinas',
+        description: 'Proteínas',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Contiene' }
+        ]
+      },
+      {
+        name: 'cuerposCetonicos',
+        description: 'Cuerpos Cetónicos',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Contiene' }
+        ]
+      },
+      {
+        name: 'hemoglobina',
+        description: 'Hemoglobina',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Contiene' }
+        ]
+      },
+      {
+        name: 'urobilinogeno',
+        description: 'Urobilinogeno',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Contiene' }
+        ]
+      },
+      {
+        name: 'pigmentosBiliares',
+        description: 'Pigmentos Biliares',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No Contiene' }
+        ]
+      },
+      {
+        name: 'examenMicroscópico',
+        description: 'Examen Microscópico',
+        disabled: true
+      },
+      {
+        name: 'celulasEpiteliales',
+        description: 'Células Epiteliales',
+        value: '',
+        type: 'text',
+        unit: 'POR CAMPO',
+        reference_values: [
+          { type: '', name: 'Escasas' }
+        ]
+      },
+      {
+        name: 'leucocitos',
+        description: 'Leucocitos',
+        value: '',
+        type: 'number',
+        unit: 'POR CAMPO',
+        reference_values: [
+          { type: '', min: 0, max: 2 }
+        ]
+      },
+      {
+        name: 'piocitos',
+        description: 'Piocitos',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No se observan' }
+        ]
+      },
+      {
+        name: 'hematies',
+        description: 'Hematíes',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'No se observan' }
+        ]
+      },
+      {
+        name: 'cilindros',
+        description: 'Cilindros',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'NO SE OBSERVAN' }
+        ]
+      },
+      {
+        name: 'cristales',
+        description: 'Cristales',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'NO SE OBSERVAN' }
+        ]
+      },
+      {
+        name: 'mucus',
+        description: 'Mucus',
+        value: '',
+        type: 'text',
+        unit: '',
+        reference_values: [
+          { type: '', name: 'ESCASO' }
+        ]
+      },
+      {
+        name: 'otros',
+        description: 'otros',
+        value: '',
+        type: 'text',
+        unit: '',
+        multiline: true,
+        reference_values: [
+          { type: '', name: '' }
+        ]
+      }
+    ]
   },
   {
-    name: 0,
-    code: 'K00-K95',
-    description: 'Enfermedades del sistema digestivo'
-  },
-  {
-    name: 0,
-    code: 'L00-L99',
-    description: 'Enfermedades de la piel y del tejido subcut\u00e1neo'
-  },
-  {
-    name: 0,
-    code: 'M00-M99',
-    description:
-      'Enfermedades del sistema osteomuscular y del tejido conjuntivo'
-  },
-  {
-    name: 0,
-    code: 'N00-N99',
-    description: 'Enfermedades del sistema genitourinario'
-  },
-  { name: 0, code: 'O00-O9A', description: 'Embarazo, parto y puerperio' },
-  {
-    name: 0,
-    code: 'P00-P96',
-    description: 'Ciertas afecciones originadas en el per\u00edodo perinatal'
-  },
-  {
-    name: 0,
-    code: 'Q00-Q99',
-    description:
-      'Malformaciones cong\u00e9nitas, deformidades y anomal\u00edas cromos\u00f3micas'
-  },
-  {
-    name: 0,
-    code: 'R00-R99',
-    description:
-      ' S\u00edntomas, signos y hallazgos anormales cl\u00ednicos y de laboratorio, no clasificados en otra parte'
-  },
-  {
-    name: 0,
-    code: 'S00-T88',
-    description:
-      'Traumatismos, envenenamientos y algunas otras consecuencias de causas externas'
-  },
-  {
-    name: 0,
-    code: 'V01-Y99',
-    description: 'Causas externas de morbilidad y de mortalidad'
-  },
-  {
-    name: 0,
-    code: 'Z00-Z99',
-    description:
-      'Factores que influyen en el estado de salud y contacto con los servicios de salud'
-  },
-  {
-    code: 'H60-H62',
-    name: 1,
-    description: 'Enfermedades del o\u00eddo externo',
-    code_0: 'H60-H95'
-  },
-  {
-    code: 'H65-H75',
-    name: 1,
-    description: 'Enfermedades del o\u00eddo medio y de la mastoides',
-    code_0: 'H60-H95'
-  },
-  {
-    code: 'H80-H83',
-    name: 1,
-    description: 'Enfermedades del o\u00eddo interno',
-    code_0: 'H60-H95'
-  },
-  {
-    code: 'H90-H95',
-    name: 1,
-    description: 'Otros trastornos del o\u00eddo',
-    code_0: 'H60-H95'
-  },
-  {
-    code: 'H00-H06',
-    name: 1,
-    description: 'Trastornos del p\u00e1rpado, aparato lagrimal y \u00f3rbita',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'H10-H13',
-    name: 1,
-    description: 'Trastornos de la conjuntiva',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'H15-H22',
-    name: 1,
-    description:
-      'Trastornos de la escler\u00f3tica, c\u00f3rnea, iris y cuerpo ciliar',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'G00-G09',
-    name: 1,
-    description: 'Enfermedades inflamatorias del sistema nervioso central',
-    code_0: 'G00-G99'
-  },
-  {
-    code: 'G10-G13',
-    name: 1,
-    description:
-      'Atrofias sist\u00e9micas que afectan principalmente el sistema nervioso central',
-    code_0: 'G00-G99'
-  },
-  {
-    code: 'G20-G26',
-    name: 1,
-    description: 'Trastornos extrapiramidales y del movimiento',
-    code_0: 'G00-G99'
-  },
-  {
-    code: 'H25-H28',
-    name: 1,
-    description: 'Trastornos del cristalino',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'H30-H36',
-    name: 1,
-    description: 'Trastornos de la coroides y de la retina',
-    code_0: 'H00-H59'
-  },
-  { code: 'H40-H42', name: 1, description: 'Glaucoma', code_0: 'H00-H59' },
-  {
-    code: 'H43-H45',
-    name: 1,
-    description: 'Trastornos del cuerpo v\u00edtreo y del globo ocular',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'H46-H48',
-    name: 1,
-    description:
-      'Trastornos del nervio \u00f3ptico y de las v\u00edas \u00f3pticas',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'H49-H52',
-    name: 1,
-    description: 'binocular, de la acomodaci\u00f3n y de la refracci\u00f3n',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'H53-H54',
-    name: 1,
-    description: 'Alteraciones de la visi\u00f3n y ceguera',
-    code_0: 'H00-H59'
-  },
-  {
-    code: 'F00-F09',
-    name: 1,
-    description:
-      'Trastornos mentales org\u00e1nicos, incluidos los trastornos sintom\u00e1ticos',
-    code_0: 'F01-F99'
-  },
-  {
-    code: 'F10-F19',
-    name: 1,
-    description:
-      'Trastornos mentales y del comportamiento debidos al uso de sustancias psicoactivas',
-    code_0: 'F01-F99'
-  },
-  {
-    code: 'F20-F29',
-    name: 1,
-    description:
-      'Esquizofrenia, trastornos esquizot\u00edpicos y trastornos delirantes',
-    code_0: 'F01-F99'
-  },
-  {
-    code: 'F30-F39',
-    name: 1,
-    description: 'Trastornos del humor [afectivos]',
-    code_0: 'F01-F99'
-  },
-  {
-    code: 'F40-F48',
-    name: 1,
-    description:
-      'Trastornos neur\u00f3ticos, trastornos relacionados con el estr\u00e9s y trastornos somatomorfos',
-    code_0: 'F01-F99'
-  },
-  {
-    code: 'E00-E07',
-    name: 1,
-    description: 'Trastornos de la gl\u00e1ndula tiroides',
-    code_0: 'E00-E89'
-  },
-  {
-    code: 'E10-E14',
-    name: 1,
-    description: 'Diabetes mellitus',
-    code_0: 'E00-E89'
-  },
-  {
-    code: 'E15-E16',
-    name: 1,
-    description:
-      'Otros trastornos de la regulaci\u00f3n de la glucosa y de la secreci\u00f3n interna del p\u00e1ncreas',
-    code_0: 'E00-E89'
-  },
-  {
-    code: 'E20-E35',
-    name: 1,
-    description: 'Trastornos de otras gl\u00e1ndulas endocrinas',
-    code_0: 'E00-E89'
-  },
-  {
-    code: 'D50-D53',
-    name: 1,
-    description: 'Anemias nutricionales',
-    code_0: 'D50-D89'
-  },
-  {
-    code: 'D55-D59',
-    name: 1,
-    description: 'Anemias hemol\u00edticas',
-    code_0: 'D50-D89'
-  },
-  {
-    code: 'D60-D64',
-    name: 1,
-    description: 'Anemias apl\u00e1sticas y otras anemias',
-    code_0: 'D50-D89'
-  },
-  {
-    code: 'D65-D69',
-    name: 1,
-    description:
-      'Defectos de la coagulaci\u00f3n, p\u00farpura y otras afecciones hemorr\u00e1gicas',
-    code_0: 'D50-D89'
-  },
-  {
-    code: 'D70-D77',
-    name: 1,
-    description:
-      'Otras enfermedades de la sangre y de los \u00f3rganos hematopoy\u00e9ticos',
-    code_0: 'D50-D89'
+    name: 'gasesEnSangre',
+    description: 'Gases en Sangre',
+    code: 'A00-B07',
+    disabled: false,
+    sub: [
+      {
+        name: 'tipoDeMuestra',
+        description: 'Tipo de Muestra',
+        value: 'ARTERIAL',
+        type: 'text',
+        select: true,
+        unit: '',
+        items: ['ARTERIAL', 'VENOSA'],
+        reference_values: []
+      },
+      {
+        name: 'pH',
+        description: 'pH',
+        value: '',
+        type: 'number',
+        unit: '',
+        reference_values: [
+          { type: 'arterial', min: 7.35, max: 7.45 },
+          { type: 'venosa', min: 7.33, max: 7.43 }
+        ]
+      },
+      {
+        name: 'pco2',
+        description: 'Pco2',
+        value: '',
+        type: 'number',
+        unit: 'mmHg',
+        reference_values: [
+          { type: 'arterial', min: 35, max: 45 },
+          { type: 'venosa', min: 38, max: 50 }
+        ]
+      },
+      {
+        name: 'po2',
+        description: 'Po2',
+        value: '',
+        type: 'number',
+        unit: 'mmHg',
+        reference_values: [
+          { type: 'arterial', min: 80, max: 100 },
+          { type: 'venosa', min: 30, max: 50 }
+        ]
+      },
+      {
+        name: 'so2',
+        description: 'So2',
+        value: '',
+        type: 'number',
+        unit: '%',
+        reference_values: [
+          { type: 'arterial', min: 95, max: 100 },
+          { type: 'venosa', min: 60, max: 85 }
+        ]
+      },
+      {
+        name: 'hco3',
+        description: '[HCO3]',
+        value: '',
+        type: 'number',
+        unit: 'mmol/L',
+        reference_values: [
+          { type: 'arterial', min: 22, max: 26 },
+          { type: 'venosa', min: 23, max: 27 }
+        ]
+      },
+      {
+        name: 'excesoBase',
+        description: 'Exceso de Base',
+        value: '',
+        type: 'number',
+        unit: 'mmol/L',
+        reference_values: [
+          { type: '', min: -2, max: 2 },
+        ]
+      },
+      {
+        name: 'ionogramaPlasmático',
+        description: 'Ionograma Plasmático',
+        disabled: true
+      },
+      {
+        name: 'sodio',
+        description: 'Sodio (Na+)',
+        value: '',
+        type: 'number',
+        unit: 'mEq/L',
+        reference_values: [
+          { type: '', min: 136, max: 146 }
+        ]
+      },
+      {
+        name: 'potasio',
+        description: 'Potasio (K+)',
+        value: '',
+        type: 'number',
+        unit: 'mEq/L',
+        reference_values: [
+          { type: '', min: 3.5, max: 5.0 }
+        ]
+      },
+      {
+        name: 'cloruro',
+        description: 'Cloruro (Cl-)',
+        value: '',
+        type: 'number',
+        unit: 'mEq/L',
+        reference_values: [
+          { type: '', min: 98, max: 107 }
+        ]
+      }
+    ]
   }
 ];

@@ -31,7 +31,7 @@ const Laboratory = () => {
 
   const { user } = authContext;
   const { paciente } = pacienteContext;
-  const { evolution, message, addEvolution, getEvolutions } = laboratoryContext;
+  const { report, message, addReport, getReports } = laboratoryContext;
 
   const handleOpen = () => {
     setOpen(true);
@@ -46,7 +46,7 @@ const Laboratory = () => {
       handleOpen();
     }
     if (paciente) {
-      getEvolutions({ id_paciente: paciente._id });
+      getReports({ id_paciente: paciente._id });
     }
   }, [message, paciente]);
 
@@ -58,17 +58,17 @@ const Laboratory = () => {
             {message}
           </Alert>
         </Snackbar>
-        <Grid container justify="center" spacing={1}>
+        <Grid container justifyContent="center" spacing={1}>
           <SearchPaciente user={user} />
           {(user.role === LABORATORIO || user.role === MEDICO) && paciente ? (
             <Fragment>
-              <Grid item lg={6} md={8} xs={10}>
+              <Grid item xl={12}>
                 <BloodTest
                   user={user}
                   paciente={paciente}
-                  data={evolution}
-                  addEvolution={addEvolution}
-                  getEvolutions={getEvolutions}
+                  data={report}
+                  addReport={addReport}
+                  getReports={getReports}
                 />
               </Grid>
             </Fragment>

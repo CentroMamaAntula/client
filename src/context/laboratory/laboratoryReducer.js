@@ -1,27 +1,27 @@
 import {
-  ADD_EVOLUTION_LAB,
-  GET_EVOLUTION_LAB,
+  ADD_REPORT_LAB,
+  GET_REPORT_LAB,
   LOADING_LAB,
   ERROR_LAB
 } from '../../types';
 
 export default (state, action) => {
   switch (action.type) {
-    case ADD_EVOLUTION_LAB:
+    case ADD_REPORT_LAB:
       return {
         ...state,
-        evolution: {
-          ...state.evolution,
-          evolutions: [action.payload, ...state.evolution.evolutions],
+        report: {
+          ...state.report,
+          reports: [action.payload, ...state.report.reports],
           total: state.total + 1
         },
         message: null,
         loading: false
       };
-    case GET_EVOLUTION_LAB:
+    case GET_REPORT_LAB:
       return {
         ...state,
-        evolution: action.payload,
+        report: action.payload,
         message: null,
         loading: false
       };

@@ -108,7 +108,7 @@ const NutritionEvolution = ({
                 </Box>
                 <Grid
                   container
-                  justify="center"
+                  justifyContent="center"
                   spacing={1}
                   alignItems="center"
                 >

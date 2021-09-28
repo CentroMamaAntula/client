@@ -49,7 +49,7 @@ const ProductCard = ({ className, product, ...rest }) => {
       <Box flexGrow={1} />
       <Divider />
       <Box p={2}>
-        <Grid container justify="flex-end" spacing={2}>
+        <Grid container justifyContent="flex-end" spacing={2}>
           <Grid className={classes.statsItem} item>
             <Typography
               align="center"

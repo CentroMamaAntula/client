@@ -556,7 +556,7 @@ const BalanceHE = ({
                     count={data ? data.total : 1}
                     rowsPerPage={3}
                     page={data ? data.currentPage - 1 : 1}
-                    onChangePage={handleChangePage}
+                    onPageChange={handleChangePage}
                     ActionsComponent={TablePaginationActions}
                     labelDisplayedRows={handleLabelDisplay}
                   />
