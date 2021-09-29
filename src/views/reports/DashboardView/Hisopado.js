@@ -55,6 +55,7 @@ const Hisopado = ({
   className,
   id,
   data,
+  disabled,
   addHisopado,
   updateHisopado,
   getHisopado,
@@ -92,6 +93,7 @@ const Hisopado = ({
         titleTypographyProps={{ variant: 'h3' }}
         action={
           <Button
+            disabled={disabled}
             color="secondary"
             variant="outlined"
             onClick={handleClickOpen}
@@ -366,6 +368,7 @@ Hisopado.propTypes = {
   className: PropTypes.string,
   id: PropTypes.string,
   data: PropTypes.object,
+  disabled: PropTypes.bool,
   addHisopado: PropTypes.func,
   getHisopado: PropTypes.func
 };

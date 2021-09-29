@@ -20,7 +20,7 @@ import AutContext from 'src/context/auth/authContext';
 import PacienteContext from 'src/context/paciente/pacienteContext';
 import CHContext from 'src/context/clinic_history/CHContext';
 import NursingContext from 'src/context/nursing/NursingContext';
-import { ENFERMERO, MEDICO, KINESILOGIA } from 'src/utils/role';
+import { ENFERMERO, MEDICO, KINESILOGIA, LABORATORIO } from 'src/utils/role';
 import PhysicalExam from './PhysicalExam';
 import Diagnostic from './Diagnostic';
 import Activity from './Activity';
@@ -113,30 +113,7 @@ const Dashboard = () => {
         </Snackbar>
         <Grid container justifyContent="center" spacing={1}>
           <SearchPaciente user={user} />
-          {user && (user.role === ENFERMERO || user.role === KINESILOGIA) ? (
-            paciente ? (
-              !loadingCH ? (
-                <Grid item lg={12} md={12} xl={12} xs={12}>
-                  <Treatment
-                    disabled
-                    id={paciente._id}
-                    user={user}
-                    data={treatment}
-                    addTreatment={addTreatment}
-                    getTreatment={getTreatment}
-                    application={application}
-                    addApplication={addApplication}
-                    getApplication={getApplication}
-                  />
-                </Grid>
-              ) : (
-                <Box my={10}>
-                  <CircularProgress size={60} />
-                </Box>
-              )
-            ) : null
-          ) : null}
-          {user && user.role === MEDICO ? (
+          {user ? (
             paciente ? (
               !loadingCH ? (
                 <Fragment>
@@ -144,6 +121,7 @@ const Dashboard = () => {
                     <HistoryCurrent
                       id={paciente._id}
                       user={user}
+                      disabled={user.role !== MEDICO}
                       data={historyCurrent}
                       addHistoryCurrent={addHistoryCurrent}
                       getHistoryCurrent={getHistoryCurrent}
@@ -154,6 +132,7 @@ const Dashboard = () => {
                       id={paciente._id}
                       user={user}
                       data={treatment}
+                      disabled={user.role !== MEDICO}
                       addTreatment={addTreatment}
                       getTreatment={getTreatment}
                       application={application}
@@ -164,6 +143,7 @@ const Dashboard = () => {
                   <Grid item lg={6} md={12} xl={6} xs={12}>
                     <Diagnostic
                       id={paciente._id}
+                      disabled={user.role !== MEDICO}
                       user={user}
                       data={diagnostic}
                       addDiagnostic={addDiagnostic}
@@ -173,6 +153,7 @@ const Dashboard = () => {
                   <Grid item lg={6} md={12} xl={6} xs={12}>
                     <PhysicalExam
                       id={paciente._id}
+                      disabled={user.role !== MEDICO}
                       user={user}
                       data={physicalExam}
                       addPhysicalExam={addPhysicalExam}
@@ -182,6 +163,7 @@ const Dashboard = () => {
                   <Grid item xs={12}>
                     <Hisopado
                       id={paciente._id}
+                      disabled={user.role !== MEDICO}
                       data={hisopado}
                       addHisopado={addHisopado}
                       updateHisopado={updateHisopado}
@@ -191,6 +173,7 @@ const Dashboard = () => {
                   <Grid item xs={12}>
                     <Activity
                       paciente={paciente}
+                      disabled={user.role !== MEDICO}
                       user={user}
                       data={activity}
                       editPaciente={editPaciente}

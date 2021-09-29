@@ -43,6 +43,7 @@ const PhysicalExam = ({
   id,
   user,
   data,
+  disabled,
   addPhysicalExam,
   getPhysicalExam,
   ...rest
@@ -89,6 +90,7 @@ const PhysicalExam = ({
         titleTypographyProps={{ variant: 'h3' }}
         action={
           <Button
+            disabled={disabled}
             endIcon={<AddBoxIcon />}
             color="secondary"
             variant="outlined"
@@ -705,6 +707,7 @@ PhysicalExam.propTypes = {
   id: PropTypes.string,
   user: PropTypes.object,
   data: PropTypes.object,
+  disabled: PropTypes.bool,
   addPhysicalExam: PropTypes.func,
   getPhysicalExam: PropTypes.func
 };

@@ -69,6 +69,7 @@ const Activity = ({
   paciente,
   user,
   data,
+  disabled,
   editPaciente,
   addActivity,
   getActivity,
@@ -141,7 +142,7 @@ const Activity = ({
                 color="secondary"
                 variant="outlined"
                 onClick={handleClickTriaje}
-                disabled={paciente.internship}
+                disabled={paciente.internship || disabled}
                 /*                 endIcon={<AirlineSeatFlatAngledRoundedIcon />} */
               >
                 {'Triaje'}
@@ -152,6 +153,7 @@ const Activity = ({
                 color="secondary"
                 variant="outlined"
                 onClick={handleClickOpen}
+                disabled={disabled}
                 /*                 endIcon={<LocalHotelRoundedIcon />} */
               >
                 {paciente.internship ? 'Dar Alta/Derivación/Óbito' : 'Internar'}
@@ -162,7 +164,7 @@ const Activity = ({
                 color="secondary"
                 variant="outlined"
                 onClick={handleClickOpen}
-                disabled={!paciente.internship}
+                disabled={!paciente.internship || disabled}
                 /*                 endIcon={<AirlineSeatFlatAngledRoundedIcon />} */
               >
                 {'Cambiar de Sector/Cama'}
@@ -685,6 +687,7 @@ Activity.propTypes = {
   paciente: PropTypes.object,
   user: PropTypes.object,
   data: PropTypes.object,
+  disabled: PropTypes.bool,
   editPaciente: PropTypes.func,
   addActivity: PropTypes.func,
   getActivity: PropTypes.func

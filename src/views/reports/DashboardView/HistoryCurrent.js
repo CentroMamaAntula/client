@@ -33,6 +33,7 @@ const HistoryCurrent = ({
   id,
   user,
   data,
+  disabled,
   addHistoryCurrent,
   getHistoryCurrent,
   ...rest
@@ -62,6 +63,7 @@ const HistoryCurrent = ({
         titleTypographyProps={{ variant: 'h3' }}
         action={
           <Button
+            disabled={disabled}
             endIcon={<AddBoxIcon />}
             color="secondary"
             variant="outlined"
@@ -241,7 +243,8 @@ const HistoryCurrent = ({
 };
 
 HistoryCurrent.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
 export default HistoryCurrent;

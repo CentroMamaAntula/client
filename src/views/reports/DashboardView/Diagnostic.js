@@ -40,6 +40,7 @@ const Diagnostic = ({
   id,
   user,
   data,
+  disabled,
   addDiagnostic,
   getDiagnostic,
   ...rest
@@ -70,6 +71,7 @@ const Diagnostic = ({
         titleTypographyProps={{ variant: 'h3' }}
         action={
           <Button
+            disabled={disabled}
             endIcon={<AddBoxIcon />}
             color="secondary"
             variant="outlined"
@@ -211,6 +213,7 @@ Diagnostic.propTypes = {
   id: PropTypes.string,
   user: PropTypes.object,
   data: PropTypes.object,
+  disabled: PropTypes.bool,
   addPhysicalExam: PropTypes.func,
   getPhysicalExam: PropTypes.func
 };
