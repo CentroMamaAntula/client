@@ -19,6 +19,7 @@ import StatiticsView from './views/statitics/StatiticsView';
 
 import Epicrisis from './views/print/epicrisis';
 import NutritionView from './views/nutrition/NutritionView';
+import HemotherapyView from './views/hemotherapy/HemotherapyView';
 
 const routes = [
   {
@@ -33,8 +34,8 @@ const routes = [
       { path: 'internment', element: <CustomerListView /> },
       { path: 'kinesiology', element: <KinesiologyView /> },
       { path: 'laboratory', element: <LaboratoryView /> },
+      { path: 'hemotherapy', element: <HemotherapyView /> },
       { path: 'statitics', element: <StatiticsView /> },
-      /*       { path: 'nursing', element: <NursingView /> }, */
       { path: 'xray', element: <XrayView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

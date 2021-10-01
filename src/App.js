@@ -15,6 +15,7 @@ import MentalQueryState from './context/mental_query/mentalQueryState';
 import XrayState from './context/xray/xrayState';
 import KinesiologyState from './context/kinesiology/kinesiologyState';
 import NutritionState from './context/nutrition/nutritionState';
+import HemotherapyState from './context/hemotherapy/hemotherapyState';
 import LaboratoryState from './context/laboratory/laboratoryState';
 import StatisticsState from './context/statistics/statiticsState';
 
@@ -32,12 +33,14 @@ const App = () => {
                   <KinesiologyState>
                     <NutritionState>
                       <LaboratoryState>
-                        <StatisticsState>
-                          <ThemeProvider theme={theme}>
-                            <GlobalStyles />
-                            {routing}
-                          </ThemeProvider>
-                        </StatisticsState>
+                        <HemotherapyState>
+                          <StatisticsState>
+                            <ThemeProvider theme={theme}>
+                              <GlobalStyles />
+                              {routing}
+                            </ThemeProvider>
+                          </StatisticsState>
+                        </HemotherapyState>
                       </LaboratoryState>
                     </NutritionState>
                   </KinesiologyState>

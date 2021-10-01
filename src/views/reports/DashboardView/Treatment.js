@@ -143,13 +143,12 @@ const Treatment = ({
                 <TableFooter>
                   <TableRow>
                     <TablePagination
-                      rowsPerPageOptions={['']}
-                      count={data !== null ? data.total : 1}
                       rowsPerPage={5}
-                      page={data !== null ? data.currentPage - 1 : 1}
-                      onChangePage={handleChangePage}
-                      /*ActionsComponent={TablePaginationActions}*/
-                      labelDisplayedRows={handleLabelDisplay}
+                      rowsPerPageOptions={['']}
+                      count={data ? data.total : 1}
+                      page={data ? data.currentPage - 1 : 1}
+                      onPageChange={handleChangePage}
+                      ActionsComponent={TablePaginationActions}
                     />
                   </TableRow>
                 </TableFooter>

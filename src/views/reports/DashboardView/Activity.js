@@ -23,7 +23,10 @@ import {
   Typography,
   Grid,
   TextField,
-  MenuItem
+  MenuItem,
+  TableFooter,
+  TableRow,
+  TablePagination
 } from '@material-ui/core';
 /* import LocalHotelRoundedIcon from '@material-ui/icons/LocalHotelRoundedIcon';
 import AirlineSeatFlatAngledRoundedIcon from '@material-ui/icons/AirlineSeatFlatAngledRounded';
@@ -31,6 +34,7 @@ import AirlineSeatFlatAngledRoundedIcon from '@material-ui/icons/AirlineSeatFlat
 /* import TablePaginationActions from 'src/components/TablePaginationActions'; */
 import TableRowCustom from 'src/components/TableRowlCustom';
 import TableCellCustom from 'src/components/TableCellCustom';
+import TablePaginationActions from 'src/components/TablePaginationActions';
 import BedContext from '../../../context/bed/bedContext';
 import Epicrisis from './epicrisis';
 
@@ -128,6 +132,10 @@ const Activity = ({
 
   const handleClickEpicrisis = () => {
     setOpenEpicrisis(!openEpicrisis);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    getActivity({ id_paciente: paciente._id, newPage: newPage + 1 });
   };
 
   return (
@@ -624,19 +632,18 @@ const Activity = ({
                     </TableRowCustom>
                   ))}
               </TableBody>
-              {/* <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={['']}
-                  count={data.total}
-                  rowsPerPage={2}
-                  page={data.currentPage - 1}
-                  onChangePage={handleChangePage}
-                  ActionsComponent={TablePaginationActions}
-                  labelDisplayedRows={handleLabelDisplay}
-                />
-              </TableRow>
-            </TableFooter> */}
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPage={3}
+                    rowsPerPageOptions={['']}
+                    count={data ? data.total : 1}
+                    page={data ? data.currentPage - 1 : 1}
+                    onPageChange={handleChangePage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
             </Table>
           </Box>
         </PerfectScrollbar>

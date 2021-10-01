@@ -132,13 +132,12 @@ const Notifications = ({
                 <TableFooter>
                   <TableRow>
                     <TablePagination
+                      rowsPerPage={3}
                       rowsPerPageOptions={['']}
                       count={count}
-                      rowsPerPage={5}
                       page={currentPage - 1}
-                      onChangePage={handleChangePage}
+                      onPageChange={handleChangePage}
                       ActionsComponent={TablePaginationActions}
-                      labelDisplayedRows={handleLabelDisplay}
                     />
                   </TableRow>
                 </TableFooter>

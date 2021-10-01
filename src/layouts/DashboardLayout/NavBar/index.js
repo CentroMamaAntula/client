@@ -72,6 +72,11 @@ const items = [
     title: 'Laboratorio'
   },
   {
+    href: '/app/hemotherapy',
+    icon: SettingsIcon,
+    title: 'Hemoterapia'
+  },
+  {
     href: '/app/xray',
     icon: SettingsIcon,
     title: 'Rayos'

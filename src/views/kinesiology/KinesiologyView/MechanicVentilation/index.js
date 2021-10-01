@@ -82,10 +82,6 @@ const MechanicVentilation = ({
     });
   };
 
-  const handleLabelDisplay = ({ from, to, count }) => {
-    return `Mostrando desde ${from} a ${to} de ${count}`;
-  };
-
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader
@@ -189,13 +185,12 @@ const MechanicVentilation = ({
               <TableFooter>
                 <TableRow>
                   <TablePagination
+                    rowsPerPage={5}
                     rowsPerPageOptions={['']}
                     count={data ? data.total : 1}
-                    rowsPerPage={5}
                     page={data ? data.currentPage - 1 : 1}
-                    onChangePage={handleChangePage}
+                    onPageChange={handleChangePage}
                     ActionsComponent={TablePaginationActions}
-                    labelDisplayedRows={handleLabelDisplay}
                   />
                 </TableRow>
               </TableFooter>

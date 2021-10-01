@@ -512,13 +512,12 @@ const KinesiologyEvolution = ({
               <TableFooter>
                 <TableRow>
                   <TablePagination
+                    rowsPerPage={5}
                     rowsPerPageOptions={['']}
                     count={data ? data.total : 1}
-                    rowsPerPage={5}
                     page={data ? data.currentPage - 1 : 1}
                     onPageChange={handleChangePage}
                     ActionsComponent={TablePaginationActions}
-                    labelDisplayedRows={handleLabelDisplay}
                   />
                 </TableRow>
               </TableFooter>

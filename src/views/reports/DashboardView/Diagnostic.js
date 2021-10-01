@@ -119,13 +119,12 @@ const Diagnostic = ({
         <TableFooter>
           <TableRow>
             <TablePagination
+              rowsPerPage={3}
               rowsPerPageOptions={['']}
-              count={data !== null ? data.total : 1}
-              rowsPerPage={2}
-              page={data !== null ? data.currentPage - 1 : 1}
-              onChangePage={handleChangePage}
-              /*ActionsComponent={TablePaginationActions}*/
-              labelDisplayedRows={handleLabelDisplay}
+              count={data ? data.total : 1}
+              page={data ? data.currentPage - 1 : 1}
+              onPageChange={handleChangePage}
+              ActionsComponent={TablePaginationActions}
             />
           </TableRow>
         </TableFooter>

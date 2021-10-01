@@ -346,13 +346,12 @@ const Hisopado = ({
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={['']}
-                    count={data !== null ? data.total : 1}
                     rowsPerPage={2}
-                    page={data !== null ? data.currentPage - 1 : 1}
-                    onChangePage={handleChangePage}
-                    /*ActionsComponent={TablePaginationActions}*/
-                    labelDisplayedRows={handleLabelDisplay}
+                    rowsPerPageOptions={['']}
+                    count={data ? data.total : 1}
+                    page={data ? data.currentPage - 1 : 1}
+                    onPageChange={handleChangePage}
+                    ActionsComponent={TablePaginationActions}
                   />
                 </TableRow>
               </TableFooter>

@@ -348,13 +348,12 @@ const ARMExam = ({
               <TableFooter>
                 <TableRow>
                   <TablePagination
+                    rowsPerPage={3}
                     rowsPerPageOptions={['']}
                     count={data ? data.total : 1}
-                    rowsPerPage={3}
                     page={data ? data.currentPage - 1 : 1}
                     onPageChange={handleChangePage}
                     ActionsComponent={TablePaginationActions}
-                    labelDisplayedRows={handleLabelDisplay}
                   />
                 </TableRow>
               </TableFooter>
