@@ -161,18 +161,19 @@ const HemotherapyExam = ({
                 hemocomponente: Yup.string().max(
                   50000,
                   'No se puede superar los 50000 caracteres'
-                ),
+                ).required('Este campo es requerido'),
                 numUnidad: Yup.number()
                 .min(0, 'No puede ser menor a 0')
-                .max(400, 'No puede ser mayor a 400'),
+                .max(400, 'No puede ser mayor a 400')
+                .required('Este campo es requerido'),
                 tecnicas: Yup.string().max(
                   50000,
                   'No se puede superar los 50000 caracteres'
-                ),
+                ).required('Este campo es requerido'),
                 resultados: Yup.string().max(
                   50000,
                   'No se puede superar los 50000 caracteres'
-                ),
+                ).required('Este campo es requerido'),
               })}
               onSubmit={values => {
                 values = {
