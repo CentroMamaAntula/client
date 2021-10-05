@@ -10,7 +10,8 @@ import {
   CardHeader,
   TextField,
   MenuItem,
-  CardContent
+  CardContent,
+  Button
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import SearchPaciente from 'src/views/searchPaciente';
@@ -86,6 +87,15 @@ const Dashboard = () => {
 
   const handleChange = e => {
     setEscalas(e.target.value);
+  };
+
+  const handleClick = e => {
+    localStorage.setItem('clinicHistory', JSON.stringify({
+      activities: activity.activitys,
+      historysCurrent: historyCurrent.historyCurrents,
+      paciente,
+      treatments: treatment.treatments }));
+    window.open('/print/clinic_history');
   };
 
   useEffect(() => {
@@ -212,6 +222,20 @@ const Dashboard = () => {
                   ) : escalas === 2 ? (
                     <Pronostic />
                   ) : null}
+                  <Grid item xs={12}>
+                    <Box my={2}>
+                      <Button
+                        fullWidth
+                        color="inherit"
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        onClick={handleClick}
+                      >
+                        IMPRIMIR
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Fragment>
               ) : (
                 <Box my={10}>

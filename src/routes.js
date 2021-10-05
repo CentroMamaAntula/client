@@ -18,6 +18,7 @@ import LaboratoryView from './views/laboratory/LaboratoryView';
 import StatiticsView from './views/statitics/StatiticsView';
 
 import Epicrisis from './views/print/epicrisis';
+import ClinicHistory from './views/print/clinicHistory';
 import NutritionView from './views/nutrition/NutritionView';
 import HemotherapyView from './views/hemotherapy/HemotherapyView';
 
@@ -56,6 +57,7 @@ const routes = [
     element: <PrintLayout />,
     children: [
       { path: 'epicrisis', element: <Epicrisis /> },
+      { path: 'clinic_history', element: <ClinicHistory /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

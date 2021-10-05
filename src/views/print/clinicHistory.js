@@ -15,6 +15,7 @@ import {
   Container
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   root: {},
@@ -27,23 +28,23 @@ const useStyles = makeStyles({
 const Epicrisis = ({ className, ...rest }) => {
   const classes = useStyles();
   const componentRef = useRef();
-  const [epicrisis] = useState(JSON.parse(localStorage.getItem('epicrisis')));
+  const [{ activities, historysCurrent, paciente, treatments }] = useState(JSON.parse(localStorage.getItem('clinicHistory')));
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
   });
 
   useEffect(() => {
-    if (localStorage.getItem('epicrisis') === null) {
+    if (localStorage.getItem('clinicHistory') === null) {
       window.close();
     }
     return () => {
-      localStorage.removeItem('epicrisis');
+      localStorage.removeItem('clinicHistory');
     };
   }, []);
 
   return (
-    <Page className={classes.root} title="Epicrisis">
+    <Page className={classes.root} title="Imprimir Historia Clinica">
       <Container
         maxWidth="lg"
         className={clsx(classes.root, className)}
@@ -53,7 +54,7 @@ const Epicrisis = ({ className, ...rest }) => {
           <Card>
             <CardHeader
               subheader="Centro de Salud Mama Antula"
-              title="EPICRISIS"
+              title="Historia Clinica"
               titleTypographyProps={{ variant: 'h1' }}
               style={{ textAlign: 'center' }}
             />
@@ -68,38 +69,38 @@ const Epicrisis = ({ className, ...rest }) => {
                   <Typography color="textPrimary" gutterBottom variant="h6">
                     Nombre y Apellido
                   </Typography>
-                  <Typography>{epicrisis.paciente.name}</Typography>
+                  <Typography>{paciente.name}</Typography>
                 </Grid>
                 <Grid className={classes.item} item xs={4}>
                   <Typography color="textPrimary" gutterBottom variant="h6">
                     N° de documento
                   </Typography>
-                  <Typography>{epicrisis.paciente.dni}</Typography>
+                  <Typography>{paciente.dni}</Typography>
                 </Grid>
                 <Grid className={classes.item} item xs={4}>
                   <Typography color="textPrimary" gutterBottom variant="h6">
                     Domicilio
                   </Typography>
-                  <Typography>{epicrisis.paciente.domicile}</Typography>
+                  <Typography>{paciente.domicile}</Typography>
                 </Grid>
                 <Grid className={classes.item} item xs={4}>
                   <Typography color="textPrimary" gutterBottom variant="h6">
                     Localidad
                   </Typography>
-                  <Typography>{epicrisis.paciente.location}</Typography>
+                  <Typography>{paciente.location}</Typography>
                 </Grid>
                 <Grid className={classes.item} item xs={4}>
                   <Typography color="textPrimary" gutterBottom variant="h6">
                     Telefono
                   </Typography>
-                  <Typography>{epicrisis.paciente.phone}</Typography>
-                  <Typography>{epicrisis.paciente.family_phone}</Typography>
+                  <Typography>{paciente.phone}</Typography>
+                  <Typography>{paciente.family_phone}</Typography>
                 </Grid>
                 <Grid className={classes.item} item xs={4}>
                   <Typography color="textPrimary" gutterBottom variant="h6">
                     Cobertura Social
                   </Typography>
-                  <Typography>{epicrisis.paciente.social_coverage}</Typography>
+                  <Typography>{paciente.social_coverage}</Typography>
                 </Grid>
               </Grid>
             </CardContent>
@@ -107,85 +108,40 @@ const Epicrisis = ({ className, ...rest }) => {
             <CardContent>
               <Grid container spacing={3} direction="column">
                 <Grid item container spacing={6} wrap="nowrap" justify="center">
-                  <Grid className={classes.item} item md={4} sm={6} xs={12}>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      Fecha de ingreso:
-                      {new Date(epicrisis.date_admission)
-                        .toJSON()
-                        .slice(0, 10)
-                        .split('-')
-                        .reverse()
-                        .join('/')}
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.item} item md={4} sm={6} xs={12}>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      Fecha de egreso:
-                      {new Date(epicrisis.date_egress)
-                        .toJSON()
-                        .slice(0, 10)
-                        .split('-')
-                        .reverse()
-                        .join('/')}
-                    </Typography>
-                  </Grid>
+                  {activities ? activities.map(activity => (
+                    <Grid className={classes.item} item md={4} sm={6} xs={12}>
+                      <Typography color="textPrimary" gutterBottom variant="h6">
+                        {`Fecha de ${activity.type}:
+                        ${moment(activity.date).format('DD/MM/YYYY')}`}
+                      </Typography>
+                    </Grid>
+                  )) : null}
                 </Grid>
-                <Grid item sm={12} container spacing={2} justify="center">
-                  <Grid className={classes.item} item xs={4}>
+                <Grid item container sm={12} spacing={2} justify="center">
+                  <Grid className={classes.item} item xs={10}>
                     <Typography color="textPrimary" gutterBottom variant="h4">
-                      Motivo
+                      Antecedendes de Enfermedad Actual
                     </Typography>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      {epicrisis.action}
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.item} item xs={4}>
-                    <Typography color="textPrimary" gutterBottom variant="h4">
-                      Diagnostico Presuntivo
-                    </Typography>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      {epicrisis.presumptive_diagnosis}
-                    </Typography>
-                  </Grid>
-                  <Grid className={classes.item} item xs={4}>
-                    <Typography color="textPrimary" gutterBottom variant="h4">
-                      Diagnostico Final
-                    </Typography>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      {epicrisis.final_diagnosis}
-                    </Typography>
+                    {historysCurrent.map(hc => (
+                      <Typography color="textPrimary" gutterBottom variant="h6">
+                        {`${moment(hc.date).format('DD/MM/YYYY HH:mm')}\t${hc.disease}\t${hc.observations}\nDr/a ${hc.professional_name.name}`}
+                      </Typography>
+                    ))}
                   </Grid>
                   <Grid className={classes.item} item xs={10}>
                     <Typography color="textPrimary" gutterBottom variant="h3">
                       Tratamiento
                     </Typography>
                     <Typography color="textPrimary" gutterBottom variant="h6">
-                      {epicrisis.treatment}
-                    </Typography>
-                  </Grid>
-
-                  <Grid className={classes.item} item xs={10}>
-                    <Typography color="textPrimary" gutterBottom variant="h3">
-                      Tratamiento Ambulatorio
-                    </Typography>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      {epicrisis.treatment_outpatient}
-                    </Typography>
-                  </Grid>
-
-                  <Grid className={classes.item} item xs={10}>
-                    <Typography color="textPrimary" gutterBottom variant="h3">
-                      Observaciones
-                    </Typography>
-                    <Typography color="textPrimary" gutterBottom variant="h6">
-                      {epicrisis.observations}
+                      {treatments.map(t => (
+                        <Typography color="textPrimary" gutterBottom variant="h6">
+                          {`${moment(t.date).format('DD/MM/YYYY HH:mm')} \t${t.disease ? t.disease : ''} \t${t.observations}\n Dr/a ${t.professional_name.name}`}
+                        </Typography>
+                      ))}
                     </Typography>
                   </Grid>
                 </Grid>
               </Grid>
-              <Box display="flex" justifyContent="flex-end" p={2}>
-                {`Dr/a ${epicrisis.user.name}`}
-              </Box>
             </CardContent>
             <Divider />
           </Card>
