@@ -48,6 +48,11 @@ const Toolbar = ({ className, getActivityFromTo, ...rest }) => {
                 to: Yup.date().required('Fecha')
               })}
               onSubmit={values => {
+                values = {
+                  ...values,
+                  model: values.type.split('-')[0],
+                  type: values.type.split('-')[1],
+                };
                 getActivityFromTo(values);
               }}
             >
@@ -81,11 +86,12 @@ const Toolbar = ({ className, getActivityFromTo, ...rest }) => {
                         value={values.type}
                         variant="outlined"
                       >
-                        <MenuItem value="Alta">Alta</MenuItem>
-                        <MenuItem value="Ingreso">Ingreso</MenuItem>
-                        <MenuItem value="Derivacion">Derivacion</MenuItem>
-                        <MenuItem value="Obito">Obito</MenuItem>
-                        <MenuItem value="Triaje">Triaje</MenuItem>
+                        <MenuItem value='Activity-Alta'>Alta</MenuItem>
+                        <MenuItem value='Activity-Ingreso'>Ingreso</MenuItem>
+                        <MenuItem value='Activity-Derivacion'>Derivacion</MenuItem>
+                        <MenuItem value='Activity-Obito'>Obito</MenuItem>
+                        <MenuItem value='Activity-Triaje'>Triaje</MenuItem>
+                        <MenuItem value='MentalQuery'>Consultas - Salud Mental</MenuItem>
                       </TextField>
                     </Grid>
                     <Grid item xs={12} sm={12} md={4}>

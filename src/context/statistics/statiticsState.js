@@ -23,10 +23,10 @@ const StatisticsState = props => {
     dispatch({
       type: LOADING_STATISTICS
     });
-    const { type, from, to } = data;
+    const { model, type = undefined, from, to } = data;
     try {
       const respuesta = await clienteAxios.get('/api/statistics/activity', {
-        params: { type, from, to }
+        params: { model, type, from, to }
       });
       dispatch({
         type: GET_ACTIVITY_FROM_TO,
