@@ -86,12 +86,12 @@ const Toolbar = ({ className, getActivityFromTo, ...rest }) => {
                         value={values.type}
                         variant="outlined"
                       >
-                        <MenuItem value='Activity-Alta'>Alta</MenuItem>
-                        <MenuItem value='Activity-Ingreso'>Ingreso</MenuItem>
-                        <MenuItem value='Activity-Derivacion'>Derivacion</MenuItem>
-                        <MenuItem value='Activity-Obito'>Obito</MenuItem>
-                        <MenuItem value='Activity-Triaje'>Triaje</MenuItem>
-                        <MenuItem value='MentalQuery'>Consultas - Salud Mental</MenuItem>
+                        <MenuItem value="Activity-Alta">Alta</MenuItem>
+                        <MenuItem value="Activity-Ingreso">Ingreso</MenuItem>
+                        <MenuItem value="Activity-Derivacion">Derivacion</MenuItem>
+                        <MenuItem value="Activity-Obito">Obito</MenuItem>
+                        <MenuItem value="Activity-Triaje">Triaje</MenuItem>
+                        <MenuItem value="MentalQuery">Consultas - Salud Mental</MenuItem>
                       </TextField>
                     </Grid>
                     <Grid item xs={12} sm={12} md={4}>
