@@ -57,7 +57,7 @@ const Epicrisis = ({ className, ...rest }) => {
         maxWidth="lg"
         className={clsx(classes.root, className)}
         {...rest}
-     >
+      >
         <Box m={4} ref={componentRef}>
           <Card>
             <CardHeader
@@ -134,7 +134,7 @@ const Epicrisis = ({ className, ...rest }) => {
                       <Fragment key={d._id}>
                         <ListItem
                           divider={i < diagnostics.length - 1}
-                      >
+                        >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -166,7 +166,7 @@ const Epicrisis = ({ className, ...rest }) => {
                       <Fragment key={hc._id}>
                         <ListItem
                           divider={i < historysCurrent.length - 1}
-                      >
+                        >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -192,7 +192,7 @@ const Epicrisis = ({ className, ...rest }) => {
                       <Fragment key={t._id}>
                         <ListItem
                           divider={i < treatments.length - 1}
-                      >
+                        >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -218,7 +218,7 @@ const Epicrisis = ({ className, ...rest }) => {
                       <Fragment key={h._id}>
                         <ListItem
                           divider={i < hisopados.length - 1}
-                      >
+                        >
                           <ListItemText
                             primary={
                               <Box mb={1}>
