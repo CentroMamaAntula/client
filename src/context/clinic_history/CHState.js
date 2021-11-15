@@ -57,7 +57,11 @@ const CHState = props => {
   const [state, dispatch] = useReducer(CHReducer, initialState);
 
   //funciones
-  const getClinicHistory = async ( { id_paciente, from = undefined, to = undefined, limit = undefined} ) => {
+  const getClinicHistory = async ({
+    id_paciente,
+    from = undefined,
+    to = undefined,
+    limit = undefined }) => {
     dispatch({
       type: LOADING_CH
     });

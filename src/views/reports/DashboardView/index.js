@@ -90,14 +90,15 @@ const Dashboard = () => {
   };
 
   const handleClick = async e => {
-    await getClinicHistory({ id_paciente: paciente._id});
+    await getClinicHistory({ id_paciente: paciente._id });
     localStorage.setItem('clinicHistory', JSON.stringify({
       activities: activity.activitys,
       historysCurrent: historyCurrent.historyCurrents,
       hisopados: hisopado.hisopados,
       diagnostics: diagnostic.diagnostics,
       paciente,
-      treatments: treatment.treatments }));
+      treatments: treatment.treatments
+    }));
     window.open('/print/clinic_history');
   };
 
@@ -112,7 +113,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (paciente) {
-      getClinicHistory({ id_paciente: paciente._id, limit: 5});
+      getClinicHistory({ id_paciente: paciente._id, limit: 5 });
     }
   }, [paciente]);
 
