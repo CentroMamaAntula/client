@@ -57,13 +57,13 @@ const CHState = props => {
   const [state, dispatch] = useReducer(CHReducer, initialState);
 
   //funciones
-  const getClinicHistory = async id_paciente => {
+  const getClinicHistory = async ( { id_paciente, from = undefined, to = undefined, limit = undefined} ) => {
     dispatch({
       type: LOADING_CH
     });
     try {
       const respuesta = await clienteAxios.get('/api/clinic_history', {
-        params: { id_paciente }
+        params: { id_paciente, from, to, limit }
       });
       dispatch({
         type: GET_CLINIC_HISTORY,

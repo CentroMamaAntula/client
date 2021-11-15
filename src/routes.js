@@ -42,6 +42,15 @@ const routes = [
     ]
   },
   {
+    path: 'print',
+    element: <PrintLayout />,
+    children: [
+      { path: 'epicrisis', element: <Epicrisis /> },
+      { path: 'clinic_history', element: <ClinicHistory /> },
+      { path: '*', element: <Navigate to="/404" /> }
+    ]
+  },
+  {
     path: '/',
     element: <MainLayout />,
     children: [
@@ -51,17 +60,7 @@ const routes = [
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
-  },
-  /* {
-    path: 'print',
-    element: <PrintLayout />,
-    children: [
-      { path: 'epicrisis', element: <Epicrisis /> },
-      { path: 'clinic_history', element: <ClinicHistory /> },
-      { path: '/', element: <Navigate to="/app/dashboard" /> },
-      { path: '*', element: <Navigate to="/404" /> }
-    ]
-  } */
+  }
 ];
 
 export default routes;
