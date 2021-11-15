@@ -57,7 +57,7 @@ const Epicrisis = ({ className, ...rest }) => {
         maxWidth="lg"
         className={clsx(classes.root, className)}
         {...rest}
-      >
+     >
         <Box m={4} ref={componentRef}>
           <Card>
             <CardHeader
@@ -73,7 +73,7 @@ const Epicrisis = ({ className, ...rest }) => {
             />
             <CardContent>
               <Box mb={8}>
-                <Grid container spacing={3} >
+                <Grid container spacing={3}>
                   <Grid className={classes.item} item xs={4}>
                     <Typography color="textPrimary" gutterBottom variant="h6">
                       Nombre y Apellido
@@ -131,10 +131,10 @@ const Epicrisis = ({ className, ...rest }) => {
                       Diagnosticos
                     </Typography>
                     {diagnostics.map((d, i) => (
-                      <Fragment key={d._id} >
+                      <Fragment key={d._id}>
                         <ListItem
                           divider={i < diagnostics.length - 1}
-                        >
+                      >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -163,10 +163,10 @@ const Epicrisis = ({ className, ...rest }) => {
                       Antecedendes de Enfermedad Actual
                     </Typography>
                     {historysCurrent.map((hc, i) => (
-                      <Fragment key={hc._id} >
+                      <Fragment key={hc._id}>
                         <ListItem
                           divider={i < historysCurrent.length - 1}
-                        >
+                      >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -189,10 +189,10 @@ const Epicrisis = ({ className, ...rest }) => {
                       Tratamientos
                     </Typography>
                     {treatments.map((t, i) => (
-                      <Fragment key={t._id} >
+                      <Fragment key={t._id}>
                         <ListItem
                           divider={i < treatments.length - 1}
-                        >
+                      >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -215,10 +215,10 @@ const Epicrisis = ({ className, ...rest }) => {
                       Hisopados
                     </Typography>
                     {hisopados.map((h, i) => (
-                      <Fragment key={h._id} >
+                      <Fragment key={h._id}>
                         <ListItem
                           divider={i < hisopados.length - 1}
-                        >
+                      >
                           <ListItemText
                             primary={
                               <Box mb={1}>
@@ -226,7 +226,7 @@ const Epicrisis = ({ className, ...rest }) => {
                                   {moment(h.date).format('DD/MM/YYYY HH:mm')}
                                 </Typography>
                                 <Typography variant="h4">
-                                {`${h.result}`}
+                                  {`${h.result}`}
                                 </Typography>
                               </Box>
                             }
