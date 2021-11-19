@@ -48,11 +48,11 @@ const XrayView = () => {
   };
 
   useEffect(() => {
-    if (user.role === 1) {
+    if (user.role === MEDICO) {
       if (paciente) {
         getOrderRXPaciente(paciente._id);
       }
-    } else if (user.role === 4) {
+    } else if (user.role === RAYOS) {
       getOrderRX();
     }
   }, [paciente]);
