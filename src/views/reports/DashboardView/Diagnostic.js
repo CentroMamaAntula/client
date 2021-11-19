@@ -119,7 +119,7 @@ const Diagnostic = ({
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPage={3}
+              rowsPerPage={5}
               rowsPerPageOptions={['']}
               count={data ? data.total : 1}
               page={data ? data.currentPage - 1 : 1}

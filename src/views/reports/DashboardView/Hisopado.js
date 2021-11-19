@@ -346,7 +346,7 @@ const Hisopado = ({
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPage={2}
+                    rowsPerPage={5}
                     rowsPerPageOptions={['']}
                     count={data ? data.total : 1}
                     page={data ? data.currentPage - 1 : 1}
