@@ -16,12 +16,11 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import SearchPaciente from 'src/views/searchPaciente';
 import Page from 'src/components/Page';
-
 import AutContext from 'src/context/auth/authContext';
 import PacienteContext from 'src/context/paciente/pacienteContext';
 import CHContext from 'src/context/clinic_history/CHContext';
 import NursingContext from 'src/context/nursing/NursingContext';
-import { ENFERMERO, MEDICO, KINESILOGIA, LABORATORIO } from 'src/utils/role';
+import { MEDICO, SALUD_MENTAL } from 'src/utils/role';
 import PhysicalExam from './PhysicalExam';
 import Diagnostic from './Diagnostic';
 import Activity from './Activity';
@@ -131,17 +130,17 @@ const Dashboard = () => {
             paciente ? (
               !loadingCH ? (
                 <Fragment>
-                  <Grid item lg={12} md={12} xl={12} xs={12}>
+                  <Grid item xs={12}>
                     <HistoryCurrent
                       id={paciente._id}
                       user={user}
-                      disabled={user.role !== MEDICO}
+                      disabled={(user.role !== MEDICO) || (user.role !== SALUD_MENTAL)}
                       data={historyCurrent}
                       addHistoryCurrent={addHistoryCurrent}
                       getHistoryCurrent={getHistoryCurrent}
                     />
                   </Grid>
-                  <Grid item lg={12} md={12} xl={12} xs={12}>
+                  <Grid item xs={12}>
                     <Treatment
                       id={paciente._id}
                       user={user}
@@ -154,7 +153,7 @@ const Dashboard = () => {
                       getApplication={getApplication}
                     />
                   </Grid>
-                  <Grid item lg={6} md={12} xl={6} xs={12}>
+                  <Grid item lg={6} sm={12}>
                     <Diagnostic
                       id={paciente._id}
                       disabled={user.role !== MEDICO}
@@ -164,7 +163,7 @@ const Dashboard = () => {
                       getDiagnostic={getDiagnostic}
                     />
                   </Grid>
-                  <Grid item lg={6} md={12} xl={6} xs={12}>
+                  <Grid item lg={6} sm={12}>
                     <PhysicalExam
                       id={paciente._id}
                       disabled={user.role !== MEDICO}
@@ -174,7 +173,7 @@ const Dashboard = () => {
                       getPhysicalExam={getPhysicalExam}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item sm={12}>
                     <Hisopado
                       id={paciente._id}
                       disabled={user.role !== MEDICO}
@@ -184,7 +183,7 @@ const Dashboard = () => {
                       getHisopado={getHisopado}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item sm={12}>
                     <Activity
                       paciente={paciente}
                       disabled={user.role !== MEDICO}
@@ -195,7 +194,7 @@ const Dashboard = () => {
                       getActivity={getActivity}
                     />
                   </Grid>
-                  <Grid item lg={12} md={12} xl={12} xs={12}>
+                  <Grid item xs={12}>
                     <Card>
                       <CardHeader
                         title="Escalas"

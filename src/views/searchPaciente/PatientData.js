@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import calculateAge from 'src/utils/calculateAge';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import {
   Box,
   Card,
@@ -34,6 +35,7 @@ import TableRowCustom from 'src/components/TableRowlCustom';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import DialogData from './DialogData';
+import storage from '../../config/firebaseConfig';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,6 +63,7 @@ const PatientData = ({
   const [open, setOpen] = useState(false);
   const [openData, setOpenData] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openFiles, setOpenFiles] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -86,6 +89,14 @@ const PatientData = ({
     setOpenEdit(false);
   };
 
+  const handleOpenFiles = () => {
+    setOpenFiles(true);
+  };
+
+  const handleClickClose = () => {
+    setOpenFiles(false);
+  };
+
   return (
     <Fragment>
       <Card className={clsx(classes.root, className)} {...rest}>
@@ -93,14 +104,24 @@ const PatientData = ({
           title={paciente.name}
           titleTypographyProps={{ variant: 'h2' }}
           action={
-            <Button
-              endIcon={<AddBoxIcon />}
-              color="secondary"
-              variant="outlined"
-              onClick={handleOpenEdit}
-            >
-              EDITAR ANTECEDENTES MÉDICOS
-            </Button>
+            <Fragment>
+              <Button
+                endIcon={<AddBoxIcon />}
+                color="secondary"
+                variant="outlined"
+                onClick={handleOpenFiles}
+              >
+                Archivos Adjuntos
+              </Button>
+              <Button
+                endIcon={<AddBoxIcon />}
+                color="secondary"
+                variant="outlined"
+                onClick={handleOpenEdit}
+              >
+                EDITAR ANTECEDENTES MÉDICOS
+              </Button>
+            </Fragment>
           }
         />
         <CardContent>
@@ -703,7 +724,7 @@ const PatientData = ({
                     <TextField
                       error={Boolean(
                         touched.psicologicos_psiquiuatricos &&
-                          errors.psicologicos_psiquiuatricos
+                        errors.psicologicos_psiquiuatricos
                       )}
                       fullWidth
                       select
@@ -939,6 +960,168 @@ const PatientData = ({
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* dialog archivos adjuntos */}
+      <Dialog
+        fullWidth
+        scroll="paper"
+        maxWidth={'lg'}
+        open={openFiles}
+        onClose={handleClickClose}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">
+          Archivos Adjuntos
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Formik
+                initialValues={{
+                  date: new Date().toJSON().slice(0, 16),
+                  file: null,
+                  description: ''
+                }}
+                validationSchema={Yup.object().shape({
+                  date: Yup.date(),
+                  file: Yup.object().required(),
+                  description: Yup.string()
+                    .max(10000, 'No exceder los 10000 caracteres')
+                    .required('Observaciones es requerido')
+                })}
+                onSubmit={values => {
+                  const file = values.files.files[0];
+                  const ref = storage.ref();
+                  ref.put(file).then((snapshot) => {
+                    console.log(snapshot);
+                  });
+                  values = {
+                    ...values,
+                    name: '',
+                    date: Date.now(),
+                    extension: ''
+                  };
+                }}
+              >
+                {({
+                  errors,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                  touched,
+                  values
+                }) => (
+                  <form onSubmit={handleSubmit} autoComplete="off">
+                    <Box mb={1}>
+                      <Typography color="textPrimary" variant="h3">
+                        Subir archivo
+                      </Typography>
+                    </Box>
+                    <Grid
+                      container
+                      direction="column"
+                      justify="center"
+                      spacing={1}
+                    >
+                      <Grid item xs={12}>
+                        <TextField
+                          error={Boolean(touched.date && errors.date)}
+                          fullWidth
+                          helperText={touched.date && errors.date}
+                          label="Fecha/Hora"
+                          name="date"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          type="datetime-local"
+                          value={values.date}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          error={Boolean(touched.file && errors.file)}
+                          fullWidth
+                          helperText={touched.file && errors.file}
+                          label="Archivo"
+                          name="file"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          type="file"
+                          value={values.file}
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          error={Boolean(
+                            touched.observations && errors.observations
+                          )}
+                          fullWidth
+                          helperText={
+                            touched.observations && errors.observations
+                          }
+                          label="Observaciones"
+                          name="observations"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          type="text"
+                          multiline
+                          rows={15}
+                          value={values.observations}
+                          variant="outlined"
+                        />
+                      </Grid>
+                    </Grid>
+                    <Box my={2}>
+                      <Button
+                        color="primary"
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                      >
+                        GUARDAR
+                      </Button>
+                    </Box>
+                  </form>
+                )}
+              </Formik>
+            </Grid>
+            <Grid item xs={6}>
+              <List>
+                {/* {application
+                  ? application.map(app => (
+                    <ListItem key={app._id}>
+                      <ListItemText
+                        primary={
+                          <Box mb={1}>
+                            <Typography variant="h5">
+                              {moment(app.date).format('DD/MM/YYYY HH:mm')}
+                            </Typography>
+                            <Typography variant="h4">
+                              {app.observations}
+                            </Typography>
+                            <Typography variant="h5">
+                              {app.id_nurse.name}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </ListItem>
+                  ))
+                  : null} */}
+              </List>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={e => handleClickClose(null)} color="primary">
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </Fragment>
   );
 };
