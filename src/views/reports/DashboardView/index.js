@@ -134,7 +134,7 @@ const Dashboard = () => {
                     <HistoryCurrent
                       id={paciente._id}
                       user={user}
-                      disabled={(user.role !== MEDICO) || (user.role !== SALUD_MENTAL)}
+                      disabled={(user.role !== MEDICO) && (user.role !== SALUD_MENTAL)}
                       data={historyCurrent}
                       addHistoryCurrent={addHistoryCurrent}
                       getHistoryCurrent={getHistoryCurrent}
